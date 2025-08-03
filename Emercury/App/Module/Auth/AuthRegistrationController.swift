@@ -1,18 +1,18 @@
 import AsyncDisplayKit
 
-class AuthLoginController: ASDKViewController<ASDisplayNode> {
+class AuthRegistrationController: ASDKViewController<ASDisplayNode> {
     private let logoNode = ASImageNode()
     private let footerTextNode = ASTextNode()
-    private let loginNode = AuthLoginNode()
     
-    private lazy var registrationButton = TextButtonNode(
+    private lazy var loginButton = TextButtonNode(
         text: "Register Here",
         textColor: UIColor.hex("575988"),
         onSubmit: { [weak self] in
             guard let self else { return }
-            navigationController?.setViewControllers([AuthRegistrationController()], animated: true)
+            navigationController?.setViewControllers([AuthLoginController()], animated: true)
         }
     )
+    private let loginNode = AuthLoginNode()
     
     override init() {
         super.init(node: ASDisplayNode())
@@ -55,7 +55,7 @@ class AuthLoginController: ASDKViewController<ASDisplayNode> {
         let footerStack = ASStackLayoutSpec.horizontal()
         footerStack.spacing = 4
         footerStack.alignItems = .center
-        footerStack.children = [footerTextNode, registrationButton]
+        footerStack.children = [footerTextNode, loginButton]
         footerStack.style.alignSelf = .center
 
         let verticalStack = ASStackLayoutSpec.vertical()

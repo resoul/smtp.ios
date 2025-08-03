@@ -1,8 +1,7 @@
 import AsyncDisplayKit
 
-final class TextInputFieldNode: ASDisplayNode, UITextFieldDelegate {
-
-    private let labelNode = ASTextNode()
+class InputFieldNode: ASDisplayNode, UITextFieldDelegate {
+    private let labelNode: LabelNode
     private let textFieldNode: ASDisplayNode
     private let errorNode = ASTextNode()
 
@@ -14,6 +13,7 @@ final class TextInputFieldNode: ASDisplayNode, UITextFieldDelegate {
     private var onTextChanged: ((String) -> Void)?
 
     init(labelText: String, placeholder: String,
+         isSecure: Bool = false,
          validationRule: ((String) -> String?)? = nil,
          onTextChanged: ((String) -> Void)? = nil) {
 
@@ -25,22 +25,16 @@ final class TextInputFieldNode: ASDisplayNode, UITextFieldDelegate {
             tf.font = UIFont(name: "Poppins-Regular", size: 16) ?? UIFont.systemFont(ofSize: 16)
             tf.setLeftPaddingPoints(8)
             tf.setRightPaddingPoints(8)
+            tf.isSecureTextEntry = isSecure
             return tf
         })
 
         self.validationRule = validationRule
         self.onTextChanged = onTextChanged
+        self.labelNode = LabelNode(text: labelText)
 
         super.init()
         automaticallyManagesSubnodes = true
-        
-        labelNode.attributedText = NSAttributedString(
-            string: labelText,
-            attributes: [
-                .font: UIFont(name: "Poppins-Bold", size: 16) ?? UIFont.systemFont(ofSize: 16),
-                .foregroundColor: UIColor.hex("444444")
-            ]
-        )
 
         let tf = self.textField
         tf.placeholder = placeholder
@@ -50,6 +44,14 @@ final class TextInputFieldNode: ASDisplayNode, UITextFieldDelegate {
 
         layoutSpecBlock = { [weak self] _, _ in
             return self?.layout() ?? ASLayoutSpec()
+        }
+    }
+    
+    func configureTextField(_ configure: @escaping (UITextField) -> Void) {
+        DispatchQueue.main.async { [weak self] in
+            if let tf = self?.textField {
+                configure(tf)
+            }
         }
     }
 

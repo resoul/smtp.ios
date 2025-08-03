@@ -94,8 +94,8 @@ class AuthLoginNode: ASDisplayNode {
     }
     
     private func updateButtonState() {
-        let isUsernameValid = usernameField.textField.text?.isEmpty == false
-        let isPasswordValid = (passwordField.textField.text?.count ?? 0) >= 6
+//        let isUsernameValid = usernameField.textField.text?.isEmpty == false
+//        let isPasswordValid = (passwordField.textField.text?.count ?? 0) >= 6
 
 //        if isUsernameValid && isPasswordValid {
 //            submitButton.backgroundColor = .systemBlue
