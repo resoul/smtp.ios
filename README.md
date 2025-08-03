@@ -15,8 +15,20 @@ This is a **demo application** built with **UIKit** in Swift to demonstrate basi
 - UIKit-based user interface (no Storyboards)
 - Swift-only implementation
 - Basic API interaction (e.g., authentication, data fetch)
+- Splash screen onboarding
 - Clean structure for easy understanding
 - Compatible with iOS 13 and above
+
+---
+
+## 📱 SplashScreen
+
+**Screenshots:**
+<p align="center">
+  <img src="screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-08-03 at 13.32.57.png" alt="Splash 1" width="300" style="margin-right: 20px;" />
+  <img src="screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-08-03 at 13.32.46.png" alt="Splash 2" width="300" style="margin-right: 20px;" />
+  <img src="screenshots/Simulator Screenshot - iPhone 16 Pro - 2025-08-03 at 13.32.32.png" alt="Splash 3" width="300" />
+</p>
 
 ---
 
