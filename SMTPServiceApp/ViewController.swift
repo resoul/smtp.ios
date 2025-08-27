@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  smtp
+//  SMTPServiceApp
 //
-//  Created by resoul on 26.08.2025.
+//  Created by resoul on 27.08.2025.
 //
 
 import UIKit
