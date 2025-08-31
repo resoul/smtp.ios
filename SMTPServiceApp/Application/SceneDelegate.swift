@@ -3,6 +3,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private var appCoordinator: AppCoordinator?
 
     func scene(
         _ scene: UIScene,
@@ -15,10 +16,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else {
             return
         }
-        let window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window.windowScene = windowScene
-        window.rootViewController = UINavigationController(rootViewController: ViewController())
-        window.makeKeyAndVisible()
+        
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        
+        let container = ContainerImpl()
+        appCoordinator = container.makeAppCoordinator(window: window!)
+        appCoordinator?.start()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
