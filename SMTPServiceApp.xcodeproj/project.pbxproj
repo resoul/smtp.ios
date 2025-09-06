@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */; };
+		89F6165F2E6CA24700BD7B3B /* FontManager in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165E2E6CA24700BD7B3B /* FontManager */; };
+		89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */ = {isa = PBXBuildFile; productRef = 89F616612E6CA26200BD7B3B /* PreviewIntro */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		895E07E62E5F9548003A1A83 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */,
+				89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */,
+				89F6165F2E6CA24700BD7B3B /* FontManager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +134,9 @@
 			);
 			name = SMTPServiceApp;
 			packageProductDependencies = (
+				89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */,
+				89F6165E2E6CA24700BD7B3B /* FontManager */,
+				89F616612E6CA26200BD7B3B /* PreviewIntro */,
 			);
 			productName = SMTPServiceApp;
 			productReference = 895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */;
@@ -208,6 +220,11 @@
 			);
 			mainGroup = 895E07C22E5F9546003A1A83;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */,
+				89F6165D2E6CA24700BD7B3B /* XCRemoteSwiftPackageReference "FontManager" */,
+				89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 895E07CC2E5F9546003A1A83 /* Products */;
 			projectDirPath = "";
@@ -595,6 +612,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/resoul/AsyncDisplayKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+		89F6165D2E6CA24700BD7B3B /* XCRemoteSwiftPackageReference "FontManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/resoul/FontManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.1;
+			};
+		};
+		89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/resoul/PreviewIntro.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */;
+			productName = AsyncDisplayKit;
+		};
+		89F6165E2E6CA24700BD7B3B /* FontManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89F6165D2E6CA24700BD7B3B /* XCRemoteSwiftPackageReference "FontManager" */;
+			productName = FontManager;
+		};
+		89F616612E6CA26200BD7B3B /* PreviewIntro */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */;
+			productName = PreviewIntro;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 895E07C32E5F9546003A1A83 /* Project object */;
 }
