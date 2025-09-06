@@ -21,7 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         let config = AppConfigurationBuilder()
-            .withEnvironment(.development)
+            .withNetworkConfig(.development)
+            .withAnalytics(enabled: false)
+            .withDebugMode(enabled: true)
+            .withOfflineMode(enabled: false)
             .build()
         
         let container = Container(appConfiguration: config)

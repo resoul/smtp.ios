@@ -4,16 +4,28 @@ import PreviewIntro
 final class Container {
     private let appConfiguration: AppConfiguration
     private let service: Service
+    private let storage: Storage
     
-    init(appConfiguration: AppConfiguration) {
+    init(appConfiguration: AppConfiguration, source: DataSource = UserDefaultsDataSource()) {
         self.appConfiguration = appConfiguration
-        self.service = Service()
+        self.storage = Storage(source: source)
+        self.service = Service(appConfiguration: appConfiguration, storage: storage)
+    }
+}
+
+extension Container: StorageContainer {
+    var cookieStorage: CookieStorage {
+        storage.cookieStorage
     }
 }
 
 extension Container: ServiceContainer {
     var authService: AuthenticationService {
         service.authService
+    }
+    
+    var networkService: NetworkService {
+        service.networkService
     }
 }
 

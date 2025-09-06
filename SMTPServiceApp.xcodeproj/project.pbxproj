@@ -10,6 +10,7 @@
 		89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */; };
 		89F6165F2E6CA24700BD7B3B /* FontManager in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165E2E6CA24700BD7B3B /* FontManager */; };
 		89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */ = {isa = PBXBuildFile; productRef = 89F616612E6CA26200BD7B3B /* PreviewIntro */; };
+		89F616CF2E6CD99500BD7B3B /* DeviceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 89F616CE2E6CD99500BD7B3B /* DeviceManager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F616CF2E6CD99500BD7B3B /* DeviceManager in Frameworks */,
 				89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */,
 				89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */,
 				89F6165F2E6CA24700BD7B3B /* FontManager in Frameworks */,
@@ -137,6 +139,7 @@
 				89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */,
 				89F6165E2E6CA24700BD7B3B /* FontManager */,
 				89F616612E6CA26200BD7B3B /* PreviewIntro */,
+				89F616CE2E6CD99500BD7B3B /* DeviceManager */,
 			);
 			productName = SMTPServiceApp;
 			productReference = 895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */;
@@ -224,6 +227,7 @@
 				89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */,
 				89F6165D2E6CA24700BD7B3B /* XCRemoteSwiftPackageReference "FontManager" */,
 				89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */,
+				89F616CD2E6CD99500BD7B3B /* XCRemoteSwiftPackageReference "DeviceManager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 895E07CC2E5F9546003A1A83 /* Products */;
@@ -638,6 +642,14 @@
 				minimumVersion = 0.1.0;
 			};
 		};
+		89F616CD2E6CD99500BD7B3B /* XCRemoteSwiftPackageReference "DeviceManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/resoul/DeviceManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -655,6 +667,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */;
 			productName = PreviewIntro;
+		};
+		89F616CE2E6CD99500BD7B3B /* DeviceManager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 89F616CD2E6CD99500BD7B3B /* XCRemoteSwiftPackageReference "DeviceManager" */;
+			productName = DeviceManager;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
