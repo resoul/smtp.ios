@@ -32,7 +32,7 @@ final class AppCoordinator: Coordinator, PreviewIntroCoordinatorDelegate {
     }
     
     private func startMainFlow() {
-        let coordinator = container.makeMainCoordinator(navigationController: navigationController)
+        let coordinator = container.makeMainTabBarCoordinator(navigationController: navigationController)
         addChildCoordinator(coordinator)
         coordinator.start()
     }
@@ -44,7 +44,7 @@ final class AppCoordinator: Coordinator, PreviewIntroCoordinatorDelegate {
     }
     
     private func switchToAuthFlow() {
-        childCoordinators = childCoordinators.filter { !($0 is MainCoordinator) }
+        childCoordinators = childCoordinators.filter { !($0 is MainTabBarCoordinator) }
         navigationController.setViewControllers([], animated: false)
         startAuthFlow()
     }
