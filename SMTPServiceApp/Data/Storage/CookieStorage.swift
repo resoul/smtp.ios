@@ -1,6 +1,6 @@
 final class CookieStorage {
     private enum Keys {
-        static let cookie = "app.smtp.cookie"
+        static let cookie = "em.smtp.cookie"
     }
     
     private let dataSource: DataSource

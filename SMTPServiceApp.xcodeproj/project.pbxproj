@@ -13,27 +13,8 @@
 		89F616CF2E6CD99500BD7B3B /* DeviceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 89F616CE2E6CD99500BD7B3B /* DeviceManager */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		895E07E62E5F9548003A1A83 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 895E07C32E5F9546003A1A83 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 895E07CA2E5F9546003A1A83;
-			remoteInfo = SMTPServiceApp;
-		};
-		895E07F02E5F9548003A1A83 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 895E07C32E5F9546003A1A83 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 895E07CA2E5F9546003A1A83;
-			remoteInfo = SMTPServiceApp;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SMTPServiceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		895E07E52E5F9548003A1A83 /* SMTPServiceAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SMTPServiceAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		895E07EF2E5F9548003A1A83 /* SMTPServiceAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SMTPServiceAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -55,16 +36,6 @@
 			path = SMTPServiceApp;
 			sourceTree = "<group>";
 		};
-		895E07E82E5F9548003A1A83 /* SMTPServiceAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SMTPServiceAppTests;
-			sourceTree = "<group>";
-		};
-		895E07F22E5F9548003A1A83 /* SMTPServiceAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SMTPServiceAppUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,20 +50,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		895E07E22E5F9548003A1A83 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		895E07EC2E5F9548003A1A83 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -100,8 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				895E07CD2E5F9546003A1A83 /* SMTPServiceApp */,
-				895E07E82E5F9548003A1A83 /* SMTPServiceAppTests */,
-				895E07F22E5F9548003A1A83 /* SMTPServiceAppUITests */,
 				895E07CC2E5F9546003A1A83 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,8 +65,6 @@
 			isa = PBXGroup;
 			children = (
 				895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */,
-				895E07E52E5F9548003A1A83 /* SMTPServiceAppTests.xctest */,
-				895E07EF2E5F9548003A1A83 /* SMTPServiceAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -145,52 +98,6 @@
 			productReference = 895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		895E07E42E5F9548003A1A83 /* SMTPServiceAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 895E07FD2E5F9548003A1A83 /* Build configuration list for PBXNativeTarget "SMTPServiceAppTests" */;
-			buildPhases = (
-				895E07E12E5F9548003A1A83 /* Sources */,
-				895E07E22E5F9548003A1A83 /* Frameworks */,
-				895E07E32E5F9548003A1A83 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				895E07E72E5F9548003A1A83 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				895E07E82E5F9548003A1A83 /* SMTPServiceAppTests */,
-			);
-			name = SMTPServiceAppTests;
-			packageProductDependencies = (
-			);
-			productName = SMTPServiceAppTests;
-			productReference = 895E07E52E5F9548003A1A83 /* SMTPServiceAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		895E07EE2E5F9548003A1A83 /* SMTPServiceAppUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 895E08002E5F9548003A1A83 /* Build configuration list for PBXNativeTarget "SMTPServiceAppUITests" */;
-			buildPhases = (
-				895E07EB2E5F9548003A1A83 /* Sources */,
-				895E07EC2E5F9548003A1A83 /* Frameworks */,
-				895E07ED2E5F9548003A1A83 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				895E07F12E5F9548003A1A83 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				895E07F22E5F9548003A1A83 /* SMTPServiceAppUITests */,
-			);
-			name = SMTPServiceAppUITests;
-			packageProductDependencies = (
-			);
-			productName = SMTPServiceAppUITests;
-			productReference = 895E07EF2E5F9548003A1A83 /* SMTPServiceAppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -203,14 +110,6 @@
 				TargetAttributes = {
 					895E07CA2E5F9546003A1A83 = {
 						CreatedOnToolsVersion = 16.4;
-					};
-					895E07E42E5F9548003A1A83 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = 895E07CA2E5F9546003A1A83;
-					};
-					895E07EE2E5F9548003A1A83 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = 895E07CA2E5F9546003A1A83;
 					};
 				};
 			};
@@ -235,28 +134,12 @@
 			projectRoot = "";
 			targets = (
 				895E07CA2E5F9546003A1A83 /* SMTPServiceApp */,
-				895E07E42E5F9548003A1A83 /* SMTPServiceAppTests */,
-				895E07EE2E5F9548003A1A83 /* SMTPServiceAppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		895E07C92E5F9546003A1A83 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		895E07E32E5F9548003A1A83 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		895E07ED2E5F9548003A1A83 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -273,34 +156,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		895E07E12E5F9548003A1A83 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		895E07EB2E5F9548003A1A83 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		895E07E72E5F9548003A1A83 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 895E07CA2E5F9546003A1A83 /* SMTPServiceApp */;
-			targetProxy = 895E07E62E5F9548003A1A83 /* PBXContainerItemProxy */;
-		};
-		895E07F12E5F9548003A1A83 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 895E07CA2E5F9546003A1A83 /* SMTPServiceApp */;
-			targetProxy = 895E07F02E5F9548003A1A83 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		895E07F92E5F9548003A1A83 /* Debug */ = {
@@ -430,6 +286,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -486,93 +343,8 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		895E07FE2E5F9548003A1A83 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.example.SMTPServiceAppTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SMTPServiceApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SMTPServiceApp";
-			};
-			name = Debug;
-		};
-		895E07FF2E5F9548003A1A83 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.example.SMTPServiceAppTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SMTPServiceApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SMTPServiceApp";
-			};
-			name = Release;
-		};
-		895E08012E5F9548003A1A83 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.example.SMTPServiceAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SMTPServiceApp;
-			};
-			name = Debug;
-		};
-		895E08022E5F9548003A1A83 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.example.SMTPServiceAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = SMTPServiceApp;
 			};
 			name = Release;
 		};
@@ -593,24 +365,6 @@
 			buildConfigurations = (
 				895E07F92E5F9548003A1A83 /* Debug */,
 				895E07FA2E5F9548003A1A83 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		895E07FD2E5F9548003A1A83 /* Build configuration list for PBXNativeTarget "SMTPServiceAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				895E07FE2E5F9548003A1A83 /* Debug */,
-				895E07FF2E5F9548003A1A83 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		895E08002E5F9548003A1A83 /* Build configuration list for PBXNativeTarget "SMTPServiceAppUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				895E08012E5F9548003A1A83 /* Debug */,
-				895E08022E5F9548003A1A83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

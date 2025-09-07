@@ -83,3 +83,7 @@ struct RequestInfo: Codable {
     let id: String
     let timestamp: String
 }
+
+struct AuthResponse: Codable {
+    let user: UserDTO
+}

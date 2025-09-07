@@ -51,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             case .light:
                 ThemeManager.shared.setTheme(.light)
             case .unspecified:
-                ThemeManager.shared.setCustomTheme(key: "em.smtp")
+                ThemeManager.shared.setCustomTheme(key: "em.smtp.theme.emercury")
             @unknown default:
                 fatalError("Unknown user interface style")
             }

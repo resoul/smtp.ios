@@ -24,25 +24,13 @@ struct ThemeImpl: Theme {
     static let light = ThemeImpl(
         type: .light,
         previewIntroPresentationData: PreviewIntroPresentationData(),
-        authPresentationData: AuthPresentationData(
-            backgroundColor: .black,
-            formBackgroundColor: .black,
-            headlineColor: .black,
-            textColor: .black,
-            textLinkColor: .black
-        )
+        authPresentationData: AuthPresentationData()
     )
     
     static let dark = ThemeImpl(
         type: .dark,
         previewIntroPresentationData: PreviewIntroPresentationData(),
-        authPresentationData: AuthPresentationData(
-            backgroundColor: .black,
-            formBackgroundColor: .black,
-            headlineColor: .black,
-            textColor: .black,
-            textLinkColor: .black
-        )
+        authPresentationData: AuthPresentationData()
     )
     
     static func custom(

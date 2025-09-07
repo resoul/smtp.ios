@@ -17,12 +17,64 @@ final class AuthCoordinator: Coordinator {
     }
     
     func start() {
-        let controller = LoginController(viewModel: container.makeLoginViewModel())
+        startLogin()
+    }
+    
+    func showLogin() {
+        pushController(
+            LoginController(viewModel: container.makeLoginViewModel())
+        )
+    }
+    
+    func showRegistration() {
+        pushController(
+            RegistrationController(viewModel: container.makeRegistrationViewModel())
+        )
+    }
+    
+    func showForgotPassword() {
+        pushController(
+            ForgotPasswordController(viewModel: container.makeForgotPasswordViewModel())
+        )
+    }
+    
+    func showAccountActive(email: String) {
+        pushController(
+            ActivateAccountController(
+                email: "test@email.com",
+                viewModel: container.makeActivateAccountViewModel()
+            )
+        )
+    }
+    
+    func showRequestResetPassword() {
+        pushController(
+            RequestResetPasswordController(
+                viewModel: container.makeRequestResetPasswordViewModel()
+            )
+        )
+    }
+    
+    func didCompleteAuthentication() {
+        delegate?.authCoordinatorDidFinishAuth(self)
+    }
+    
+    private func pushController(_ controller: AuthBaseController) {
+        controller.coordinator = self
+        navigationController.pushViewController(controller, animated: true)
+    }
+}
+
+extension AuthCoordinator {
+    private func startRegistration() {
+        let controller = RegistrationController(viewModel: container.makeRegistrationViewModel())
         controller.coordinator = self
         navigationController.setViewControllers([controller], animated: false)
     }
     
-    func handleLauchCompletion() {
-        print(childCoordinators)
+    private func startLogin() {
+        let controller = LoginController(viewModel: container.makeLoginViewModel())
+        controller.coordinator = self
+        navigationController.setViewControllers([controller], animated: false)
     }
 }

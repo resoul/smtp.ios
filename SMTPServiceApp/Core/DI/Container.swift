@@ -14,18 +14,46 @@ final class Container {
         self.themeManager = themeManager
         self.storage = Storage(source: source)
         self.service = Service(appConfiguration: appConfiguration, storage: storage)
-        self.repository = Repository()
-        self.useCase = UseCase()
+        self.repository = Repository(service: service, storage: storage)
+        self.useCase = UseCase(repository: repository)
     }
 }
 
-extension Container: UseCaseContainer {}
+extension Container: UseCaseContainer {
+    var resetPasswordUseCase: ResetPasswordUseCase {
+        useCase.resetPasswordUseCase
+    }
+    
+    var resendActivationEmailUseCase: ResendActivationEmailUseCase {
+        useCase.resendActivationEmailUseCase
+    }
+    
+    var forgotPasswordUseCase: ForgotPasswordUseCase {
+        useCase.forgotPasswordUseCase
+    }
+    
+    var registrationUseCase: RegistrationUseCase {
+        useCase.registrationUseCase
+    }
+    
+    var loginUseCase: LoginUseCase {
+        useCase.loginUseCase
+    }
+}
 
-extension Container: RepositoryContainer {}
+extension Container: RepositoryContainer {
+    var authRepository: AuthRepository {
+        repository.authRepository
+    }
+}
 
 extension Container: StorageContainer {
     var cookieStorage: CookieStorage {
         storage.cookieStorage
+    }
+    
+    var userStorage: UserStorage {
+        storage.userStorage
     }
 }
 
@@ -66,7 +94,23 @@ extension Container: ViewModelContainer {
     }
     
     func makeLoginViewModel() -> LoginViewModel {
-        LoginViewModelImpl()
+        LoginViewModelImpl(loginUseCase: useCase.loginUseCase)
+    }
+    
+    func makeRequestResetPasswordViewModel() -> RequestResetPasswordViewModel {
+        RequestResetPasswordViewModel(resetPasswordUseCase: useCase.resetPasswordUseCase)
+    }
+    
+    func makeActivateAccountViewModel() -> ActivateAccountViewModel {
+        ActivateAccountViewModel(resendActivationEmailUseCase: useCase.resendActivationEmailUseCase)
+    }
+    
+    func makeForgotPasswordViewModel() -> ForgotPasswordViewModel {
+        ForgotPasswordViewModel(forgotPasswordUseCase: useCase.forgotPasswordUseCase)
+    }
+    
+    func makeRegistrationViewModel() -> RegistrationViewModel {
+        RegistrationViewModelImpl(registrationUseCase: useCase.registrationUseCase)
     }
 }
 
