@@ -24,6 +24,10 @@ struct ForgotPasswordRequest: Codable {
     let email: String
 }
 
+struct ResendActivationEmailRequest: Codable {
+    let email: String
+}
+
 struct ResetPasswordRequest: Codable {
     let resetToken: String
     let password: String
@@ -36,6 +40,7 @@ enum Endpoint {
     case registration(RegistrationRequest)
     case forgotPassword(ForgotPasswordRequest)
     case resetPassword(ResetPasswordRequest)
+    case resendActivationEmail(ResendActivationEmailRequest)
     
     var path: String {
         switch self {
@@ -49,6 +54,8 @@ enum Endpoint {
             return "/api/auth/forgot_password"
         case .resetPassword:
             return "/api/auth/reset_password"
+        case .resendActivationEmail:
+            return "/api/user/registration/resend_activation_email"
         }
     }
     
@@ -56,6 +63,8 @@ enum Endpoint {
         switch self {
         case .login, .registration, .forgotPassword, .resetPassword:
             return .POST
+        case .resendActivationEmail:
+            return .PUT
         case .logout:
             return .DELETE
         }
@@ -70,6 +79,8 @@ enum Endpoint {
         case .forgotPassword(let request):
             return try? JSONEncoder().encode(request)
         case .resetPassword(let request):
+            return try? JSONEncoder().encode(request)
+        case .resendActivationEmail(let request):
             return try? JSONEncoder().encode(request)
         case .logout:
             return nil

@@ -1,0 +1,113 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "em.smtp.t.alert.ok" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "em.smtp.t.alert.retry" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        }
+      }
+    },
+    "em.smtp.t.alert.title.activate_account" : {
+
+    },
+    "em.smtp.t.alert.title.reset_password" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset Password Failed"
+          }
+        }
+      }
+    },
+    "em.smtp.t.auth.is_loading" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logging in..."
+          }
+        }
+      }
+    },
+    "em.smtp.t.auth.password" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password"
+          }
+        }
+      }
+    },
+    "em.smtp.t.auth.request_reset_password" : {
+      "comment" : "Headline Text",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Request Reset Password"
+          }
+        }
+      }
+    },
+    "em.smtp.t.auth.retype_password" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retype Password"
+          }
+        }
+      }
+    },
+    "em.smtp.t.auth.save" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "em.smtp.t.auth.validation.msg.success.resend_activation_link" : {
+
+    },
+    "em.smtp.t.auth.validation.msg.success.reset.password" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password reset successfully"
+          }
+        }
+      }
+    },
+    "em.smtp.t.email" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
