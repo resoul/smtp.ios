@@ -1,19 +1,13 @@
-import Foundation
+import UIKit
 
 final class AppThemeSetup {
     static func setupCustomThemes() {
         let emSmtp = ThemeImpl(
             type: .custom,
             previewIntroPresentationData: PreviewIntroPresentationData(),
-            authPresentationData: AuthPresentationData(
-                backgroundColor: .black,
-                formBackgroundColor: .black,
-                headlineColor: .black,
-                textColor: .black,
-                textLinkColor: .black
-            )
+            authPresentationData: AuthPresentationData()
         )
         
-        ThemeRegistry.register(theme: emSmtp, forKey: "em.smtp")
+        ThemeRegistry.register(theme: emSmtp, forKey: "em.smtp.theme.emercury")
     }
 }

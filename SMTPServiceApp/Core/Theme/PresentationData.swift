@@ -1,11 +1,11 @@
 import UIKit
 
 struct AuthPresentationData {
-    let backgroundColor: UIColor
-    let formBackgroundColor: UIColor
-    let headlineColor: UIColor
-    let textColor: UIColor
-    let textLinkColor: UIColor
+    let backgroundColor: UIColor = UIColor.hex("F2F2F2")
+    let formBackgroundColor: UIColor = .white
+    let headlineColor: UIColor = UIColor.hex("071437")
+    let textColor: UIColor = UIColor.hex("444444")
+    let textLinkColor: UIColor = UIColor.hex("3f51b5")
 }
 
 struct PreviewIntroPresentationData {

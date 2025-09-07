@@ -3,6 +3,7 @@ import Combine
 
 class DisplayNode: ASDisplayNode {
     private var cancellables = Set<AnyCancellable>()
+    let themeManager: ThemeManager = .shared
     
     override init() {
         super.init()
@@ -14,7 +15,7 @@ class DisplayNode: ASDisplayNode {
     func setupUI() {}
     
     private func bindTheme() {
-        ThemeManager.shared.themePublisher
+        themeManager.themePublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] theme in
                 self?.applyTheme(theme)

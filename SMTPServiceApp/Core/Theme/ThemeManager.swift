@@ -97,7 +97,7 @@ final class ThemeManager {
             }
         } else {
             setTheme(.custom)
-            setCustomTheme(key: "em.smtp")
+            setCustomTheme(key: "em.smtp.theme.emercury")
         }
     }
     
