@@ -1,10 +1,3 @@
-//
-//  SMTPServiceAppTests.swift
-//  SMTPServiceAppTests
-//
-//  Created by resoul on 27.08.2025.
-//
-
 import Testing
 @testable import SMTPServiceApp
 

@@ -110,8 +110,8 @@ final class ThemeManager {
     }
     
     private func applyTheme(_ theme: Theme) {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            for window in windowScene.windows {
+//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+//            for window in windowScene.windows {
                 // window.tintColor = theme.authPresentationData.textColor
                 
                 // let navigationBarAppearance = UINavigationBarAppearance()
@@ -122,8 +122,8 @@ final class ThemeManager {
                 // UINavigationBar.appearance().standardAppearance = navigationBarAppearance
                 
                 // window.subviews.forEach { $0.setNeedsDisplay() }
-            }
-        }
+//            }
+//        }
     }
 }
 
