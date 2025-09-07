@@ -3,15 +3,25 @@ import PreviewIntro
 
 final class Container {
     private let appConfiguration: AppConfiguration
+    private let themeManager: ThemeManager
     private let service: Service
     private let storage: Storage
+    private let useCase: UseCase
+    private let repository: Repository
     
-    init(appConfiguration: AppConfiguration, source: DataSource = UserDefaultsDataSource()) {
+    init(appConfiguration: AppConfiguration, source: DataSource, themeManager: ThemeManager) {
         self.appConfiguration = appConfiguration
+        self.themeManager = themeManager
         self.storage = Storage(source: source)
         self.service = Service(appConfiguration: appConfiguration, storage: storage)
+        self.repository = Repository()
+        self.useCase = UseCase()
     }
 }
+
+extension Container: UseCaseContainer {}
+
+extension Container: RepositoryContainer {}
 
 extension Container: StorageContainer {
     var cookieStorage: CookieStorage {
@@ -32,22 +42,23 @@ extension Container: ServiceContainer {
 extension Container: ViewModelContainer {
     func makePreviewIntroViewModel() -> PreviewIntroViewModel {
         //MARK: TODO - make data source for preview intro
+        let theme = themeManager.currentTheme.previewIntroPresentationData
         let items = [
             PreviewIntro(
                 headline: "Send Messages Based On Website & Email Events",
                 description: "Unlock the key to super-responsive real-time personalization. Set up customer tracking & custom events today.",
                 image: UIImage(named: "splash"),
-                backgroundColor: UIColor.hex("343248"),
-                headlineColor: .white,
-                descriptionColor: .white
+                backgroundColor: theme.backgroundColor,
+                headlineColor: theme.textColor,
+                descriptionColor: theme.textColor
             ),
             PreviewIntro(
                 headline: "Build Highly-Customizable email Journeys!",
                 description: "Take our drag-and-drop email automation builder, design the ideal customer journey and let our platform convert leads for You On Autopilot.",
                 image: UIImage(named: "splash-1"),
-                backgroundColor: UIColor.hex("343248"),
-                headlineColor: .white,
-                descriptionColor: .white
+                backgroundColor: theme.backgroundColor,
+                headlineColor: theme.textColor,
+                descriptionColor: theme.textColor
             )
         ]
         

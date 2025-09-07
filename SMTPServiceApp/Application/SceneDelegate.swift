@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         FontManager.registerFonts(fontFamily: Fonts.Poppins.self)
-        
+        AppThemeSetup.setupCustomThemes()
+
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
@@ -27,9 +28,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .withOfflineMode(enabled: false)
             .build()
         
-        let container = Container(appConfiguration: config)
+        let container = Container(
+            appConfiguration: config,
+            source: UserDefaultsDataSource(),
+            themeManager: ThemeManager.shared
+        )
+        
         appCoordinator = container.makeAppCoordinator(window: window!)
         appCoordinator?.start()
+    }
+    
+    func windowScene(
+        _ windowScene: UIWindowScene,
+        didUpdate previousCoordinateSpace: any UICoordinateSpace,
+        interfaceOrientation previousInterfaceOrientation: UIInterfaceOrientation,
+        traitCollection previousTraitCollection: UITraitCollection
+    ) {
+        if windowScene.traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            switch windowScene.traitCollection.userInterfaceStyle {
+            case .dark:
+                ThemeManager.shared.setTheme(.dark)
+            case .light:
+                ThemeManager.shared.setTheme(.light)
+            case .unspecified:
+                ThemeManager.shared.setCustomTheme(key: "em.smtp")
+            @unknown default:
+                fatalError("Unknown user interface style")
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
