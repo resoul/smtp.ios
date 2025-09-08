@@ -4,6 +4,7 @@ protocol UseCaseContainer {
     var forgotPasswordUseCase: ForgotPasswordUseCase { get }
     var registrationUseCase: RegistrationUseCase { get }
     var loginUseCase: LoginUseCase { get }
+    var logoutUseCase: LogoutUseCase { get }
 }
 
 final class UseCase {
@@ -31,5 +32,9 @@ final class UseCase {
     
     private(set) lazy var loginUseCase: LoginUseCase = {
         return LoginUseCaseImpl(authRepository: repository.authRepository)
+    }()
+    
+    private(set) lazy var logoutUseCase: LogoutUseCase = {
+        return LogoutUseCaseImpl(authRepository: repository.authRepository)
     }()
 }

@@ -39,6 +39,10 @@ extension Container: UseCaseContainer {
     var loginUseCase: LoginUseCase {
         useCase.loginUseCase
     }
+    
+    var logoutUseCase: LogoutUseCase {
+        useCase.logoutUseCase
+    }
 }
 
 extension Container: RepositoryContainer {

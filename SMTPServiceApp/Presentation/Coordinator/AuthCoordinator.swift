@@ -1,7 +1,7 @@
 import UIKit
 
 protocol AuthCoordinatorDelegate: AnyObject {
-    func authCoordinatorDidFinishAuth(_ coordinator: AuthCoordinator)
+    func authCoordinatorDidFinish(_ coordinator: AuthCoordinator)
 }
 
 final class AuthCoordinator: Coordinator {
@@ -56,7 +56,7 @@ final class AuthCoordinator: Coordinator {
     }
     
     func didCompleteAuthentication() {
-        delegate?.authCoordinatorDidFinishAuth(self)
+        delegate?.authCoordinatorDidFinish(self)
     }
     
     private func pushController(_ controller: AuthBaseController) {

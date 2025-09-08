@@ -5,12 +5,18 @@ final class AppCoordinator: Coordinator, PreviewIntroCoordinatorDelegate {
     var navigationController: UINavigationController
     var container: Container
     
+    private var authCoordinator: AuthCoordinator?
+    
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
     func start() {
+        startIntroFlow()
+    }
+    
+    private func startIntroFlow() {
         let coordinator = container.makePreviewIntroCoordinator(navigationController: navigationController)
         coordinator.delegate = self
         addChildCoordinator(coordinator)
@@ -26,7 +32,11 @@ final class AppCoordinator: Coordinator, PreviewIntroCoordinatorDelegate {
     }
 
     private func startAuthFlow() {
-        let coordinator = container.makeAuthCoordinator(navigationController: navigationController)
+        authCoordinator = container.makeAuthCoordinator(navigationController: navigationController)
+        guard let coordinator = authCoordinator else {
+            return
+        }
+        
         addChildCoordinator(coordinator)
         coordinator.start()
     }
