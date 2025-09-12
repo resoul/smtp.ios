@@ -1,9 +1,3 @@
-import Foundation
-
-protocol LogoutUseCase {
-    func execute() async throws
-}
-
 final class LogoutUseCaseImpl: LogoutUseCase {
     private let authRepository: AuthRepository
     

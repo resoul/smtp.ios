@@ -1,10 +1,4 @@
-import Foundation
-
-protocol ForgotPasswordUseCase {
-    func execute(email: String) async throws
-}
-
-final class ForgotPasswordUseCaseImpl: ForgotPasswordUseCase {
+final class ResendActivationEmailUseCaseImpl: ResendActivationEmailUseCase {
     private let authRepository: AuthRepository
     
     init(authRepository: AuthRepository) {
@@ -13,7 +7,7 @@ final class ForgotPasswordUseCaseImpl: ForgotPasswordUseCase {
     
     func execute(email: String) async throws {
         try validateEmail(email)
-        try await authRepository.forgotPassword(email: email)
+        try await authRepository.resendActivationEmail(email: email)
     }
     
     private func validateEmail(_ email: String) throws {
@@ -21,7 +15,7 @@ final class ForgotPasswordUseCaseImpl: ForgotPasswordUseCase {
             throw AuthValidationError.emptyEmail
         }
         
-        guard email.isValidEmail else {
+        guard !email.isValidEmail else {
             throw AuthValidationError.invalidEmail
         }
     }

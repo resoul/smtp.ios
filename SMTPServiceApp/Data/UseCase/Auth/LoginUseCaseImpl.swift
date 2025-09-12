@@ -1,9 +1,3 @@
-import Foundation
-
-protocol LoginUseCase {
-    func execute(email: String, password: String) async throws -> User
-}
-
 final class LoginUseCaseImpl: LoginUseCase {
     private let authRepository: AuthRepository
     
@@ -76,26 +70,6 @@ final class LoginUseCaseImpl: LoginUseCase {
         
         guard !user.email.isEmpty else {
             throw NetworkError.decodingError
-        }
-    }
-}
-
-extension AuthValidationError {
-    var isEmailRelated: Bool {
-        switch self {
-        case .emptyEmail, .invalidEmail:
-            return true
-        default:
-            return false
-        }
-    }
-    
-    var isPasswordRelated: Bool {
-        switch self {
-        case .emptyPassword, .passwordTooShort:
-            return true
-        default:
-            return false
         }
     }
 }

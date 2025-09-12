@@ -1,7 +1,3 @@
-protocol ResetPasswordUseCase {
-    func execute(resetToken: String, password: String, passwordConfirmation: String) async throws
-}
-
 final class ResetPasswordUseCaseImpl: ResetPasswordUseCase {
     private let authRepository: AuthRepository
     
