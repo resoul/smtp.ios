@@ -59,6 +59,10 @@ extension Container: StorageContainer {
     var userStorage: UserStorage {
         storage.userStorage
     }
+    
+    var appStorage: AppStorage {
+        storage.appStorage
+    }
 }
 
 extension Container: ServiceContainer {
@@ -141,5 +145,9 @@ extension Container: CoordinatorContainer {
     
     func makeMainTabBarCoordinator(navigationController: UINavigationController) -> MainTabBarCoordinator {
         MainTabBarCoordinator(navigationController: navigationController, container: self)
+    }
+    
+    func makeDashboardCoordinator() -> DashboardCoordinator {
+        DashboardCoordinator(container: self)
     }
 }

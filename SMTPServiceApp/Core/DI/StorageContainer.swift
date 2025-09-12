@@ -1,6 +1,7 @@
 protocol StorageContainer {
     var cookieStorage: CookieStorage { get }
     var userStorage: UserStorage { get }
+    var appStorage: AppStorage { get }
 }
 
 final class Storage {
@@ -16,5 +17,9 @@ final class Storage {
     
     private(set) lazy var userStorage: UserStorage = {
         return UserStorage(dataSource: source)
+    }()
+    
+    private(set) lazy var appStorage: AppStorage = {
+        return AppStorage(dataSource: source)
     }()
 }

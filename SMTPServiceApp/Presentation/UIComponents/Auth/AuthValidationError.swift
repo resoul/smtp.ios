@@ -31,3 +31,23 @@ enum AuthValidationError: Error, LocalizedError {
         }
     }
 }
+
+extension AuthValidationError {
+    var isEmailRelated: Bool {
+        switch self {
+        case .emptyEmail, .invalidEmail:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    var isPasswordRelated: Bool {
+        switch self {
+        case .emptyPassword, .passwordTooShort:
+            return true
+        default:
+            return false
+        }
+    }
+}

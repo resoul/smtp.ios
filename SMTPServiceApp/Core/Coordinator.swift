@@ -20,4 +20,8 @@ extension Coordinator {
     func finish() {
         childCoordinators.removeAll()
     }
+    
+    var handleDoubleTap: (() -> Void)? {
+        return nil
+    }
 }
