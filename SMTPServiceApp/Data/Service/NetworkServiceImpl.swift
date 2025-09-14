@@ -82,7 +82,15 @@ final class NetworkServiceImpl: NetworkService {
     }
     
     private func buildURLRequest(for endpoint: Endpoint) throws -> URLRequest {
-        let url = baseURL.appendingPathComponent(endpoint.path)
+        var url = baseURL.appendingPathComponent(endpoint.path)
+        
+        if let queryItems = endpoint.queryItems,
+           var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            components.queryItems = queryItems
+            if let newURL = components.url {
+                url = newURL
+            }
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method.rawValue

@@ -3,4 +3,5 @@ struct StatusCodes {
     static let validationNotValid = "ems.validation.not_valid"
     static let accountNotActivated = "ems.auth.account_not_activated"
     static let notFound = "ems.common.not_found"
+    static let sessionExpired = "ems.auth.session_expired"
 }
