@@ -10,7 +10,53 @@ final class UserDomainNode: DisplayNode {
         self.userDomain = userDomain
         super.init()
         automaticallyManagesSubnodes = true
-        items = []
+        items = [
+            UserDomainValidationHeaderNode(
+                domainName: userDomain.domainName,
+                state: userDomain.state
+            ),
+            UserDomainValidationLineNode(
+                headline: "SPF settings from SMTP Relay",
+                isValid: userDomain.spfValid,
+                contentNode: {
+                    UserDomainDNSValidationNode(
+                        hostname: "*",
+                        type: "TXT",
+                        value: "v=spf1 include:srw1.em01.net ~all"
+                    )
+                }
+            ),
+            UserDomainValidationLineNode(
+                headline: "DKIM settings from SMTP Relay",
+                isValid: userDomain.dkimValid,
+                contentNode: {
+                    UserDomainDNSValidationNode(
+                        hostname: "em1._domainkey.google.com",
+                        type: "TXT",
+                        value: "xxx"
+                    )
+                }
+            ),
+            UserDomainValidationLineNode(
+                headline: "Domain Validation settings from SMTP Relay",
+                isValid: userDomain.ownerValid,
+                contentNode: {
+                    UserDomainDNSValidationNode(
+                        hostname: userDomain.domainName,
+                        type: "TXT",
+                        value: userDomain.DNSSettings.ownerValidationToken
+                    )
+                }
+            ),
+            UserDomainValidationLineNode(
+                headline: "FBL Verification",
+                isValid: userDomain.fblValid
+            ),
+            UserDomainValidationLineNode(
+                headline: "Admin Approval",
+                isValid: userDomain.state != "DISABLED"
+            )
+        ]
     }
     
     override func applyTheme(_ theme: any Theme) {
