@@ -7,14 +7,39 @@ final class AppCoordinator: Coordinator {
     
     private var mainTabBarCoordinator: MainTabBarCoordinator?
     private var authCoordinator: AuthCoordinator?
+    private var reauthObserver: NSObjectProtocol?
     
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
+    deinit {
+        if let reauthObserver {
+            NotificationCenter.default.removeObserver(reauthObserver)
+        } else {
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+    
     func start() {
-        startIntroFlow()
+        reauthObserver = NotificationCenter.default.addObserver(
+            forName: .didReceiveAuthenticationError,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.handleAuthenticationError()
+        }
+        
+        if container.showPreviewIntro {
+            startIntroFlow()
+        } else {
+            if container.authService.isAuthenticated {
+                startMainFlow()
+            } else {
+                startAuthFlow()
+            }
+        }
     }
     
     private func startIntroFlow() {
@@ -69,6 +94,16 @@ final class AppCoordinator: Coordinator {
         if let tabType = TabType(rawValue: storage.mainCurrentTab) {
             mainCoordinator.selectTab(tabType)
         }
+    }
+    
+    // MARK: - Auth Event Handling
+    @objc private func handleAuthenticationError() {
+        // If we are in the main flow, simulate logout and go to auth
+        if let mainCoordinator = mainTabBarCoordinator {
+            removeChildCoordinator(mainCoordinator)
+            mainTabBarCoordinator = nil
+        }
+        startAuthFlow()
     }
 }
 

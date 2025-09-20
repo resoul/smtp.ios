@@ -37,14 +37,23 @@ struct RequestInfo: Codable {
     let timestamp: String
 }
 
-struct ListingResponse<T: Codable>: Codable {
+struct ListingResponse<T> {
     let items: [T]
     let pagination: PaginationResponse
 }
 
-struct PaginationResponse: Codable {
+struct PaginationResponse {
     let page: Int
     let perPage: Int
     let itemsOnCurrentPage: Int
     let totalItems: Int
+}
+
+extension ListingResponseDTO {
+    func map<U>(_ transform: (T) -> U) -> ListingResponse<U> {
+        return ListingResponse<U>(
+            items: self.items.map(transform),
+            pagination: self.pagination.toDomain()
+        )
+    }
 }

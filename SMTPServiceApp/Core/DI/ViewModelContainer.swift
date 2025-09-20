@@ -7,4 +7,6 @@ protocol ViewModelContainer {
     func makeForgotPasswordViewModel() -> ForgotPasswordViewModel
     func makeRegistrationViewModel() -> RegistrationViewModel
     func makeLoginViewModel() -> LoginViewModel
+    
+    func makeUserDomainViewModel() -> UserDomainViewModel
 }

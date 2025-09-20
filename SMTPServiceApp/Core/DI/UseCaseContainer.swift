@@ -5,6 +5,9 @@ protocol UseCaseContainer {
     var registrationUseCase: RegistrationUseCase { get }
     var loginUseCase: LoginUseCase { get }
     var logoutUseCase: LogoutUseCase { get }
+    
+    var userDomainListingUseCase: UserDomainListingUseCase { get }
+    var userDomainDeletingUseCase: UserDomainDeletingUseCase { get }
 }
 
 final class UseCase {
@@ -36,5 +39,13 @@ final class UseCase {
     
     private(set) lazy var logoutUseCase: LogoutUseCase = {
         return LogoutUseCaseImpl(authRepository: repository.authRepository)
+    }()
+    
+    private(set) lazy var userDomainListingUseCase: UserDomainListingUseCase = {
+        return UserDomainListingUseCaseImpl(userDomainRepository: repository.userDomainRepository)
+    }()
+    
+    private(set) lazy var userDomainDeletingUseCase: UserDomainDeletingUseCase = {
+        return UserDomainDeletingUseCaseImpl(userDomainRepository: repository.userDomainRepository)
     }()
 }

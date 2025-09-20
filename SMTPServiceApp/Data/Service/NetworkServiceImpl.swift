@@ -7,8 +7,13 @@ final class NetworkServiceImpl: NetworkService {
     private let session: URLSession
     private let cookieStorage: CookieStorage
     private let config: NetworkConfig
+    private weak var authEventHandler: AuthenticationEventHandler?
     
-    init(config: NetworkConfig, cookieStorage: CookieStorage) {
+    init(
+        config: NetworkConfig,
+        cookieStorage: CookieStorage,
+        authEventHandler: AuthenticationEventHandler? = nil
+    ) {
         guard let url = URL(string: config.baseURL) else {
             fatalError("Invalid base URL")
         }
@@ -16,6 +21,7 @@ final class NetworkServiceImpl: NetworkService {
         self.baseURL = url
         self.cookieStorage = cookieStorage
         self.config = config
+        self.authEventHandler = authEventHandler
         
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = config.timeout
@@ -82,7 +88,15 @@ final class NetworkServiceImpl: NetworkService {
     }
     
     private func buildURLRequest(for endpoint: Endpoint) throws -> URLRequest {
-        let url = baseURL.appendingPathComponent(endpoint.path)
+        var url = baseURL.appendingPathComponent(endpoint.path)
+        
+        if let queryItems = endpoint.queryItems,
+           var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            components.queryItems = queryItems
+            if let newURL = components.url {
+                url = newURL
+            }
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = endpoint.method.rawValue
@@ -138,6 +152,8 @@ final class NetworkServiceImpl: NetworkService {
         case 200...299, 400:
             return
         case 401:
+            // Notify app layer (if provided) so it can trigger logout flow.
+            authEventHandler?.didReceiveAuthenticationError()
             throw NetworkError.authenticationError
         case 404:
             throw NetworkError.notFound
@@ -177,6 +193,10 @@ final class NetworkServiceImpl: NetworkService {
             throw NetworkError.accountNotActivated
         case StatusCodes.notFound:
             throw NetworkError.notFound
+        case StatusCodes.sessionExpired:
+            // Optional: treat server-side session expiration as authentication error too
+            authEventHandler?.didReceiveAuthenticationError()
+            throw NetworkError.authenticationError
         default:
             throw NetworkError.serverError(status.code)
         }

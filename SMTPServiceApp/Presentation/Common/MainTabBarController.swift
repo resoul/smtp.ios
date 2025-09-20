@@ -10,15 +10,32 @@ final class MainTabBarController: UITabBarController, UITabBarControllerDelegate
     }
     
     private func setupAppearance() {
-        tabBar.backgroundColor = .systemBackground
+        let appearance = UITabBarAppearance()
+        
+        // Background color
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemBackground
+        
+        // Shadow (modern way)
+        appearance.shadowColor = UIColor.black.withAlphaComponent(0.1)
+        appearance.shadowImage = nil // Use default shadow
+        
+        // Tint and item appearance
+        let normalItem = appearance.stackedLayoutAppearance.normal
+        normalItem.iconColor = .systemGray
+        normalItem.titleTextAttributes = [.foregroundColor: UIColor.systemGray]
+        
+        let selectedItem = appearance.stackedLayoutAppearance.selected
+        selectedItem.iconColor = .systemBlue
+        selectedItem.titleTextAttributes = [.foregroundColor: UIColor.systemBlue]
+        
+        // Apply to all appearance variants (for scrolling and compact)
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance
+        
+        // For interactive tinting (still respected)
         tabBar.tintColor = .systemBlue
         tabBar.unselectedItemTintColor = .systemGray
-
-        // Add shadow
-        tabBar.layer.shadowColor = UIColor.black.cgColor
-        tabBar.layer.shadowOffset = CGSize(width: 0, height: -1)
-        tabBar.layer.shadowRadius = 4
-        tabBar.layer.shadowOpacity = 0.1
     }
 
     // MARK: - UITabBarControllerDelegate
