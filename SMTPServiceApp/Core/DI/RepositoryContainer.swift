@@ -1,5 +1,6 @@
 protocol RepositoryContainer {
     var authRepository: AuthRepository { get }
+    var userDomainRepository: UserDomainRepository { get }
 }
 
 final class Repository {
@@ -17,5 +18,9 @@ final class Repository {
             cookieStorage: storage.cookieStorage,
             userStorage: storage.userStorage
         )
+    }()
+    
+    private(set) lazy var userDomainRepository: UserDomainRepository = {
+        return UserDomainRepositoryImpl(network: service.networkService)
     }()
 }

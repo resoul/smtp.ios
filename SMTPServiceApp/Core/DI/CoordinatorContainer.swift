@@ -7,4 +7,5 @@ protocol CoordinatorContainer {
     func makeMainTabBarCoordinator(navigationController: UINavigationController) -> MainTabBarCoordinator
     
     func makeDashboardCoordinator() -> DashboardCoordinator
+    func makeUserDomainCoordinator() -> UserDomainCoordinator
 }

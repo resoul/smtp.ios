@@ -1,6 +1,7 @@
 import UIKit
 import PreviewIntro
 
+//MARK: -- Main Container
 final class Container {
     private let appConfiguration: AppConfiguration
     private let themeManager: ThemeManager
@@ -19,6 +20,7 @@ final class Container {
     }
 }
 
+//MARK: -- Container UseCase
 extension Container: UseCaseContainer {
     var resetPasswordUseCase: ResetPasswordUseCase {
         useCase.resetPasswordUseCase
@@ -43,14 +45,24 @@ extension Container: UseCaseContainer {
     var logoutUseCase: LogoutUseCase {
         useCase.logoutUseCase
     }
+    
+    var userDomainListingUseCase: UserDomainListingUseCase {
+        useCase.userDomainListingUseCase
+    }
 }
 
+//MARK: -- Container Repository
 extension Container: RepositoryContainer {
     var authRepository: AuthRepository {
         repository.authRepository
     }
+    
+    var userDomainRepository: UserDomainRepository {
+        repository.userDomainRepository
+    }
 }
 
+//MARK: -- Container Storage
 extension Container: StorageContainer {
     var cookieStorage: CookieStorage {
         storage.cookieStorage
@@ -65,6 +77,7 @@ extension Container: StorageContainer {
     }
 }
 
+//MARK: -- Container Service
 extension Container: ServiceContainer {
     var authService: AuthenticationService {
         service.authService
@@ -75,6 +88,7 @@ extension Container: ServiceContainer {
     }
 }
 
+//MARK: -- Container ViewModel
 extension Container: ViewModelContainer {
     func makePreviewIntroViewModel() -> PreviewIntroViewModel {
         //MARK: TODO - make data source for preview intro
@@ -120,8 +134,13 @@ extension Container: ViewModelContainer {
     func makeRegistrationViewModel() -> RegistrationViewModel {
         RegistrationViewModelImpl(registrationUseCase: useCase.registrationUseCase)
     }
+    
+    func makeUserDomainViewModel() -> UserDomainViewModel {
+        UserDomainViewModel(listingUseCase: useCase.userDomainListingUseCase)
+    }
 }
 
+//MARK: -- Container Coordinator
 extension Container: CoordinatorContainer {
     func makeAppCoordinator(window: UIWindow) -> AppCoordinator {
         let navigationController = UINavigationController()
@@ -149,5 +168,9 @@ extension Container: CoordinatorContainer {
     
     func makeDashboardCoordinator() -> DashboardCoordinator {
         DashboardCoordinator(container: self)
+    }
+    
+    func makeUserDomainCoordinator() -> UserDomainCoordinator {
+        UserDomainCoordinator(container: self)
     }
 }

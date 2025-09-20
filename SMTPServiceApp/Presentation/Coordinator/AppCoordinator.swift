@@ -7,13 +7,32 @@ final class AppCoordinator: Coordinator {
     
     private var mainTabBarCoordinator: MainTabBarCoordinator?
     private var authCoordinator: AuthCoordinator?
+    private var reauthObserver: NSObjectProtocol?
     
     init(navigationController: UINavigationController, container: Container) {
         self.navigationController = navigationController
         self.container = container
     }
     
+    deinit {
+        // Clean up NotificationCenter observer
+        if let reauthObserver {
+            NotificationCenter.default.removeObserver(reauthObserver)
+        } else {
+            NotificationCenter.default.removeObserver(self)
+        }
+    }
+    
     func start() {
+        // Observe session expiration / re-auth events using token-based API
+        reauthObserver = NotificationCenter.default.addObserver(
+            forName: Notification.Name("didRequireReauthentication"),
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.handleReauthenticationRequired()
+        }
+        
         startIntroFlow()
     }
     
@@ -69,6 +88,16 @@ final class AppCoordinator: Coordinator {
         if let tabType = TabType(rawValue: storage.mainCurrentTab) {
             mainCoordinator.selectTab(tabType)
         }
+    }
+    
+    // MARK: - Auth Event Handling
+    @objc private func handleReauthenticationRequired() {
+        // If we are in the main flow, simulate logout and go to auth
+        if let mainCoordinator = mainTabBarCoordinator {
+            removeChildCoordinator(mainCoordinator)
+            mainTabBarCoordinator = nil
+        }
+        startAuthFlow()
     }
 }
 

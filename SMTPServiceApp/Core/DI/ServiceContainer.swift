@@ -12,10 +12,20 @@ final class Service {
         self.storage = storage
     }
     
+    // Router that handles auth-related events coming from the network layer
+    private lazy var authEventRouter: AuthEventRouter = {
+        return AuthEventRouter(
+            cookieStorage: storage.cookieStorage,
+            userStorage: storage.userStorage
+        )
+    }()
+    
     private(set) lazy var networkService: NetworkService = {
         return NetworkServiceImpl(
             config: appConfiguration.networkConfig,
-            cookieStorage: storage.cookieStorage)
+            cookieStorage: storage.cookieStorage,
+            authEventHandler: authEventRouter
+        )
     }()
     
     private(set) lazy var authService: AuthenticationService = {

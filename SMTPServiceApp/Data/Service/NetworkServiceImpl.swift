@@ -7,8 +7,13 @@ final class NetworkServiceImpl: NetworkService {
     private let session: URLSession
     private let cookieStorage: CookieStorage
     private let config: NetworkConfig
+    private weak var authEventHandler: AuthenticationEventHandler?
     
-    init(config: NetworkConfig, cookieStorage: CookieStorage) {
+    init(
+        config: NetworkConfig,
+        cookieStorage: CookieStorage,
+        authEventHandler: AuthenticationEventHandler? = nil
+    ) {
         guard let url = URL(string: config.baseURL) else {
             fatalError("Invalid base URL")
         }
@@ -16,6 +21,7 @@ final class NetworkServiceImpl: NetworkService {
         self.baseURL = url
         self.cookieStorage = cookieStorage
         self.config = config
+        self.authEventHandler = authEventHandler
         
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = config.timeout
@@ -146,6 +152,8 @@ final class NetworkServiceImpl: NetworkService {
         case 200...299, 400:
             return
         case 401:
+            // Notify app layer (if provided) so it can trigger logout flow.
+            authEventHandler?.didReceiveAuthenticationError()
             throw NetworkError.authenticationError
         case 404:
             throw NetworkError.notFound
@@ -185,6 +193,10 @@ final class NetworkServiceImpl: NetworkService {
             throw NetworkError.accountNotActivated
         case StatusCodes.notFound:
             throw NetworkError.notFound
+        case StatusCodes.sessionExpired:
+            // Optional: treat server-side session expiration as authentication error too
+            authEventHandler?.didReceiveAuthenticationError()
+            throw NetworkError.authenticationError
         default:
             throw NetworkError.serverError(status.code)
         }

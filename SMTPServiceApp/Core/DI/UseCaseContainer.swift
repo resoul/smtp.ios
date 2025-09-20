@@ -37,4 +37,8 @@ final class UseCase {
     private(set) lazy var logoutUseCase: LogoutUseCase = {
         return LogoutUseCaseImpl(authRepository: repository.authRepository)
     }()
+    
+    private(set) lazy var userDomainListingUseCase: UserDomainListingUseCase = {
+        return UserDomainListingUseCaseImpl(userDomainRepository: repository.userDomainRepository)
+    }()
 }

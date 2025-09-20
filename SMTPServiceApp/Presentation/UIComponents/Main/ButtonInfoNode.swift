@@ -13,7 +13,7 @@ final class ButtonInfoNode: ASButtonNode {
         self.backgroundColor = backgroundColor
         setTitle(
             text,
-            with: UIFont.poppinsWithFallback(.regular, size: textSize, fallback: .regular),
+            with: UIFont.poppinsWithFallback(.medium, size: textSize, fallback: .medium),
             with: textColor,
             for: .normal
         )

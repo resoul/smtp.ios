@@ -5,7 +5,9 @@ final class AppThemeSetup {
         let emSmtp = ThemeImpl(
             type: .custom,
             previewIntroPresentationData: PreviewIntroPresentationData(),
-            authPresentationData: AuthPresentationData()
+            authPresentationData: AuthPresentationData(),
+            mainPresentationData: MainPresentationData(),
+            userDomainPresentationData: UserDomainPresentationData()
         )
         
         ThemeRegistry.register(theme: emSmtp, forKey: "em.smtp.theme.emercury")
