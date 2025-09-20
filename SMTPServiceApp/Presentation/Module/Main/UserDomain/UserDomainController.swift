@@ -4,11 +4,12 @@ import Combine
 final class UserDomainController: MainCollectionController {
     private var cancellables = Set<AnyCancellable>()
     weak var coordinator: UserDomainCoordinator?
-    private let collectionNode: ASCollectionNode
-    private let viewModel: UserDomainViewModel
-    private(set) var currentPage: Int = 1
-    private(set) var totalCount: Int = 0
-    private(set) var items: [UserDomain] = []
+    let collectionNode: ASCollectionNode
+    let viewModel: UserDomainViewModel
+    
+    var currentPage: Int = 1
+    var totalCount: Int = 0
+    var items: [UserDomain] = []
     
     init(viewModel: UserDomainViewModel) {
         self.viewModel = viewModel

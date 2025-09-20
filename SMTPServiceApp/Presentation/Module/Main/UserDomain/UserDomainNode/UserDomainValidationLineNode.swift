@@ -4,6 +4,7 @@ import FontManager
 final class UserDomainValidationLineNode: DisplayNode {
     private let headline: String
     private let contentNode: ASDisplayNode?
+    private var onSettingsButtonPressed: (() -> Void)?
     private lazy var validationText = ASTextNode()
     private lazy var statusImageNode = VerifiedMarkNode()
     private lazy var settingsButton: ASButtonNode = {
@@ -11,15 +12,24 @@ final class UserDomainValidationLineNode: DisplayNode {
         btn.setImage(UIImage(named: "settings"), for: .normal)
         btn.style.height = ASDimension(unit: .points, value: 24)
         btn.style.width = ASDimension(unit: .points, value: 24)
-
         return btn
     }()
+    
+    // MARK: - Expansion state
+    private var isExpanded: Bool = false // Hide contentNode by default
 
-    init(headline: String, isValid: Bool, contentNode: (() -> ASDisplayNode)? = nil) {
+    init(
+        headline: String,
+        isValid: Bool,
+        contentNode: (() -> ASDisplayNode)? = nil,
+        onSettingsButtonPressed: (() -> Void)? = nil
+    ) {
         self.headline = headline
         self.contentNode = contentNode?()
+        self.onSettingsButtonPressed = onSettingsButtonPressed
         super.init()
         automaticallyManagesSubnodes = true
+        settingsButton.addTarget(self, action: #selector(buttonPressed(_:)), forControlEvents: .touchUpInside)
         statusImageNode.setValidated(isValid)
         validationText.attributedText = NSAttributedString(
             string: headline,
@@ -28,8 +38,15 @@ final class UserDomainValidationLineNode: DisplayNode {
                 .foregroundColor: themeManager.currentTheme.mainPresentationData.mainTextColor
             ]
         )
-        guard let contentNode = contentNode?() else { return }
-        addSubnode(contentNode)
+        if let contentNode = self.contentNode {
+            addSubnode(contentNode)
+        }
+    }
+    
+    @objc private func buttonPressed(_ sender: Any) {
+        onSettingsButtonPressed?()
+        isExpanded.toggle()
+        transitionLayout(withAnimation: true, shouldMeasureAsync: false, measurementCompletion: nil)
     }
     
     override func applyTheme(_ theme: any Theme) {
@@ -62,19 +79,50 @@ final class UserDomainValidationLineNode: DisplayNode {
             children: [stackLayout, settingsButton]
         )
         
-        guard let contentNode = contentNode else {
+        if let contentNode = contentNode, isExpanded {
+            let wrapper = ASStackLayoutSpec.vertical()
+            wrapper.children = [hLayout, contentNode]
+            return ASInsetLayoutSpec(
+                insets: .init(top: 0, left: 0, bottom: 0, right: 8),
+                child: wrapper
+            )
+        } else {
             return ASInsetLayoutSpec(
                 insets: .init(top: 0, left: 0, bottom: 0, right: 8),
                 child: hLayout
             )
         }
-        
-        let wrapper = ASStackLayoutSpec.vertical()
-        wrapper.children = [hLayout, contentNode]
-
-        return ASInsetLayoutSpec(
-            insets: .init(top: 0, left: 0, bottom: 0, right: 8),
-            child: wrapper
-        )
+    }
+    
+    // Fade in/out animation for smoother transition
+    override func animateLayoutTransition(_ context: ASContextTransitioning) {
+        if let contentNode = contentNode {
+            if isExpanded {
+                // Appearing
+                if let node = context.insertedSubnodes().first(where: { $0 === contentNode }) {
+                    node.alpha = 0.0
+                    UIView.animate(withDuration: 0.25, animations: {
+                        node.alpha = 1.0
+                    }, completion: { _ in
+                        context.completeTransition(true)
+                    })
+                } else {
+                    context.completeTransition(true)
+                }
+            } else {
+                // Disappearing
+                if let node = context.removedSubnodes().first(where: { $0 === contentNode }) {
+                    UIView.animate(withDuration: 0.25, animations: {
+                        node.alpha = 0.0
+                    }, completion: { _ in
+                        context.completeTransition(true)
+                    })
+                } else {
+                    context.completeTransition(true)
+                }
+            }
+        } else {
+            context.completeTransition(true)
+        }
     }
 }

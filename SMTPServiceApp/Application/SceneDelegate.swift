@@ -26,6 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .withAnalytics(enabled: false)
             .withDebugMode(enabled: true)
             .withOfflineMode(enabled: false)
+            .withPreviewInto(enabled: false)
             .build()
         
         let container = Container(

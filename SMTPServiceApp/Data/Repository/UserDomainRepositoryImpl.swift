@@ -1,8 +1,16 @@
+import Foundation
+
 final class UserDomainRepositoryImpl: UserDomainRepository {
     private let network: NetworkService
     
     init(network: NetworkService) {
         self.network = network
+    }
+    
+    func delete(domainUuid: UUID) async throws {
+        try await network.requestWithoutResponse(
+            endpoint: UserDomainEndpoint.delete(UserDomainDeletingRequest(domainUuid: domainUuid))
+        )
     }
     
     func lising(page: Int, perPage: Int) async throws -> ListingResponse<UserDomain> {

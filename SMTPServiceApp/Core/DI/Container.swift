@@ -20,6 +20,13 @@ final class Container {
     }
 }
 
+//MARK: -- Container App Configuration
+extension Container {
+    var showPreviewIntro: Bool {
+        appConfiguration.previewIntoEnabled
+    }
+}
+
 //MARK: -- Container UseCase
 extension Container: UseCaseContainer {
     var resetPasswordUseCase: ResetPasswordUseCase {
@@ -48,6 +55,10 @@ extension Container: UseCaseContainer {
     
     var userDomainListingUseCase: UserDomainListingUseCase {
         useCase.userDomainListingUseCase
+    }
+    
+    var userDomainDeletingUseCase: UserDomainDeletingUseCase {
+        useCase.userDomainDeletingUseCase
     }
 }
 
@@ -136,7 +147,10 @@ extension Container: ViewModelContainer {
     }
     
     func makeUserDomainViewModel() -> UserDomainViewModel {
-        UserDomainViewModel(listingUseCase: useCase.userDomainListingUseCase)
+        UserDomainViewModel(
+            listingUseCase: useCase.userDomainListingUseCase,
+            deletingUseCase: useCase.userDomainDeletingUseCase
+        )
     }
 }
 

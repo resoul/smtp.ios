@@ -3,6 +3,7 @@ struct AppConfiguration {
     var offlineModeEnabled: Bool = false
     var debugModeEnabled: Bool = false
     var networkConfig: NetworkConfig = .development
+    var previewIntoEnabled: Bool = true
 }
 
 enum AppEnvironment {
@@ -33,8 +34,12 @@ final class AppConfigurationBuilder {
         config.networkConfig = networkConfig
         return self
     }
+
+    func withPreviewInto(enabled: Bool) -> AppConfigurationBuilder { // NEW
+        config.previewIntoEnabled = enabled
+        return self
+    }
     
-    //MARK: - TODO Network Config
     func withEnvironment(_ environment: AppEnvironment) -> AppConfigurationBuilder {
         switch environment {
         case .development:
@@ -49,6 +54,9 @@ final class AppConfigurationBuilder {
             config.networkConfig = .production
             config.debugModeEnabled = false
             config.analyticsEnabled = true
+        // case .previewinto:
+            // config.networkConfig = ... (if needed)
+            // config.previewIntoEnabled = true
         }
         return self
     }

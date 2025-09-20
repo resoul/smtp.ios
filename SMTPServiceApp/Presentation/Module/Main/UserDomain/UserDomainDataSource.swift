@@ -1,4 +1,5 @@
 import AsyncDisplayKit
+import UIKit
 
 extension UserDomainController: ASCollectionDataSource, ASCollectionDelegate {
     func collectionNode(
@@ -12,8 +13,48 @@ extension UserDomainController: ASCollectionDataSource, ASCollectionDelegate {
         _ collectionNode: ASCollectionNode,
         nodeBlockForItemAt indexPath: IndexPath
     ) -> ASCellNodeBlock {
-        return {
-            UserDomainCollectionCell(userDomain: self.items[indexPath.item])
+        // Capture a weak reference to self to avoid retain cycles
+        return { [weak self] in
+            guard let self = self else { return ASCellNode() }
+            return UserDomainCollectionCell(
+                userDomain: self.items[indexPath.item],
+                onDelete: { [weak self] in
+                    self?.handleDeleteRequest(at: indexPath)
+                },
+                onTest: {
+                    print("test")
+                }
+            )
+        }
+    }
+
+    private func handleDeleteRequest(at indexPath: IndexPath) {
+        // Present the alert for user confirmation
+        let alert = UIAlertController(
+            title: "Delete Domain",
+            message: "Are you sure you want to delete this domain?",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.deleteDomain(at: indexPath)
+        })
+
+        // Present alert on main thread
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+
+    private func deleteDomain(at indexPath: IndexPath) {
+        guard indexPath.item < items.count else { return }
+        Task {
+            try await viewModel.delete(domainUuid: items[indexPath.item].uuid)
+            items.remove(at: indexPath.item)
+            totalCount = totalCount - 1
+            await collectionNode.performBatchUpdates({
+                collectionNode.deleteItems(at: [indexPath])
+            })
         }
     }
     

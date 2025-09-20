@@ -31,7 +31,15 @@ final class AppCoordinator: Coordinator {
             self?.handleAuthenticationError()
         }
         
-        startIntroFlow()
+        if container.showPreviewIntro {
+            startIntroFlow()
+        } else {
+            if container.authService.isAuthenticated {
+                startMainFlow()
+            } else {
+                startAuthFlow()
+            }
+        }
     }
     
     private func startIntroFlow() {

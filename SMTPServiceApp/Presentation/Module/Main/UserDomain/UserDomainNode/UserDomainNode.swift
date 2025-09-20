@@ -6,15 +6,18 @@ final class UserDomainNode: DisplayNode {
     private let userDomain: UserDomain
     private var items: [ASDisplayNode] = []
     
-    init(userDomain: UserDomain) {
+    init(userDomain: UserDomain, onDelete: (() -> Void)? = nil, onTest: (() -> Void)? = nil) {
         self.userDomain = userDomain
+        let header = UserDomainValidationHeaderNode(
+            domainName: userDomain.domainName,
+            state: userDomain.state,
+            onDelete: onDelete,
+            onTest: onTest
+        )
         super.init()
         automaticallyManagesSubnodes = true
         items = [
-            UserDomainValidationHeaderNode(
-                domainName: userDomain.domainName,
-                state: userDomain.state
-            ),
+            header,
             UserDomainValidationLineNode(
                 headline: "SPF settings from SMTP Relay",
                 isValid: userDomain.spfValid,
@@ -24,6 +27,9 @@ final class UserDomainNode: DisplayNode {
                         type: "TXT",
                         value: "v=spf1 include:srw1.em01.net ~all"
                     )
+                },
+                onSettingsButtonPressed: {
+                    print("spf")
                 }
             ),
             UserDomainValidationLineNode(
@@ -35,6 +41,9 @@ final class UserDomainNode: DisplayNode {
                         type: "TXT",
                         value: "xxx"
                     )
+                },
+                onSettingsButtonPressed: {
+                    print("dkim")
                 }
             ),
             UserDomainValidationLineNode(
@@ -46,15 +55,24 @@ final class UserDomainNode: DisplayNode {
                         type: "TXT",
                         value: userDomain.DNSSettings.ownerValidationToken
                     )
+                },
+                onSettingsButtonPressed: {
+                    print("validation")
                 }
             ),
             UserDomainValidationLineNode(
                 headline: "FBL Verification",
-                isValid: userDomain.fblValid
+                isValid: userDomain.fblValid,
+                onSettingsButtonPressed: {
+                    print("fbl")
+                }
             ),
             UserDomainValidationLineNode(
                 headline: "Admin Approval",
-                isValid: userDomain.state != "DISABLED"
+                isValid: userDomain.state != "DISABLED",
+                onSettingsButtonPressed: {
+                    print("admin")
+                }
             )
         ]
     }
