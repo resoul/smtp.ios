@@ -1,5 +1,9 @@
 import Foundation
 
+extension Notification.Name {
+    static let didReceiveAuthenticationError = Notification.Name("didReceiveAuthenticationError")
+}
+
 final class AuthEventRouter: AuthenticationEventHandler {
     private let cookieStorage: CookieStorage
     private let userStorage: UserStorage
@@ -10,11 +14,9 @@ final class AuthEventRouter: AuthenticationEventHandler {
     }
 
     func didReceiveAuthenticationError() {
-        // Clear any persisted auth state on authentication failures.
         cookieStorage.remove()
         userStorage.removeUser()
 
-        // If you want to notify the app (e.g., to present login), you can post a notification here.
-        // NotificationCenter.default.post(name: .didReceiveAuthenticationError, object: nil)
+        NotificationCenter.default.post(name: .didReceiveAuthenticationError, object: nil)
     }
 }

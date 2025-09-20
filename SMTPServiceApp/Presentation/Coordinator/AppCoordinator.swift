@@ -15,7 +15,6 @@ final class AppCoordinator: Coordinator {
     }
     
     deinit {
-        // Clean up NotificationCenter observer
         if let reauthObserver {
             NotificationCenter.default.removeObserver(reauthObserver)
         } else {
@@ -24,13 +23,12 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
-        // Observe session expiration / re-auth events using token-based API
         reauthObserver = NotificationCenter.default.addObserver(
-            forName: Notification.Name("didRequireReauthentication"),
+            forName: .didReceiveAuthenticationError,
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.handleReauthenticationRequired()
+            self?.handleAuthenticationError()
         }
         
         startIntroFlow()
@@ -91,7 +89,7 @@ final class AppCoordinator: Coordinator {
     }
     
     // MARK: - Auth Event Handling
-    @objc private func handleReauthenticationRequired() {
+    @objc private func handleAuthenticationError() {
         // If we are in the main flow, simulate logout and go to auth
         if let mainCoordinator = mainTabBarCoordinator {
             removeChildCoordinator(mainCoordinator)
