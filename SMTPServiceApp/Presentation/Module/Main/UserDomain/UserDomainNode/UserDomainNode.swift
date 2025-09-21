@@ -4,10 +4,12 @@ import Combine
 
 final class UserDomainNode: DisplayNode {
     private let userDomain: UserDomain
+    private let user: User?
     private var items: [ASDisplayNode] = []
     
-    init(userDomain: UserDomain, onDelete: (() -> Void)? = nil, onTest: (() -> Void)? = nil) {
+    init(user: User?, userDomain: UserDomain, onDelete: (() -> Void)? = nil, onTest: (() -> Void)? = nil) {
         self.userDomain = userDomain
+        self.user = user
         let header = UserDomainValidationHeaderNode(
             domainName: userDomain.domainName,
             state: userDomain.state,
@@ -21,13 +23,7 @@ final class UserDomainNode: DisplayNode {
             UserDomainValidationLineNode(
                 headline: "SPF settings from SMTP Relay",
                 isValid: userDomain.spfValid,
-                contentNode: {
-                    UserDomainDNSValidationNode(
-                        hostname: "*",
-                        type: "TXT",
-                        value: "v=spf1 include:srw1.em01.net ~all"
-                    )
-                },
+                contentNode: { self.getSPF() },
                 onSettingsButtonPressed: {
                     print("spf")
                 }
@@ -35,13 +31,7 @@ final class UserDomainNode: DisplayNode {
             UserDomainValidationLineNode(
                 headline: "DKIM settings from SMTP Relay",
                 isValid: userDomain.dkimValid,
-                contentNode: {
-                    UserDomainDNSValidationNode(
-                        hostname: "em1._domainkey.google.com",
-                        type: "TXT",
-                        value: "xxx"
-                    )
-                },
+                contentNode: { self.getDKIM() },
                 onSettingsButtonPressed: {
                     print("dkim")
                 }
@@ -75,6 +65,38 @@ final class UserDomainNode: DisplayNode {
                 }
             )
         ]
+    }
+    
+    private func getDKIM() -> UserDomainDNSValidationNode {
+        guard let user = user else {
+            return UserDomainDNSValidationNode(
+                hostname: "em1._domainkey.",
+                type: "TXT",
+                value: "xxx"
+            )
+        }
+        
+        return UserDomainDNSValidationNode(
+            hostname: "\(user.SMTPSettings.dkimHostPrefix).\(userDomain.domainName)",
+            type: "TXT",
+            value: user.SMTPSettings.dkimKey
+        )
+    }
+    
+    private func getSPF() -> UserDomainDNSValidationNode {
+        guard let user = user else {
+            return UserDomainDNSValidationNode(
+                hostname: "*",
+                type: "TXT",
+                value: "v=spf1 include: ~all"
+            )
+        }
+        
+        return UserDomainDNSValidationNode(
+            hostname: "*",
+            type: "TXT",
+            value: "v=spf1 include:\(user.SMTPSettings.spfDomain) ~all"
+        )
     }
     
     override func applyTheme(_ theme: any Theme) {
