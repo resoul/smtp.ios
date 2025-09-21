@@ -13,10 +13,10 @@ extension UserDomainController: ASCollectionDataSource, ASCollectionDelegate {
         _ collectionNode: ASCollectionNode,
         nodeBlockForItemAt indexPath: IndexPath
     ) -> ASCellNodeBlock {
-        // Capture a weak reference to self to avoid retain cycles
         return { [weak self] in
             guard let self = self else { return ASCellNode() }
             return UserDomainCollectionCell(
+                user: currentUser,
                 userDomain: self.items[indexPath.item],
                 onDelete: { [weak self] in
                     self?.handleDeleteRequest(at: indexPath)

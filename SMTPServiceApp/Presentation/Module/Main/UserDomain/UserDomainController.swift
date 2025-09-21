@@ -6,6 +6,7 @@ final class UserDomainController: MainCollectionController {
     weak var coordinator: UserDomainCoordinator?
     let collectionNode: ASCollectionNode
     let viewModel: UserDomainViewModel
+    var currentUser: User?
     
     var currentPage: Int = 1
     var totalCount: Int = 0
@@ -35,7 +36,6 @@ final class UserDomainController: MainCollectionController {
             try await viewModel.fetchListings()
             currentPage += 1
         }
-        print("loadMoreData")
     }
     
     override func setupBindings() {
@@ -50,6 +50,16 @@ final class UserDomainController: MainCollectionController {
                 self?.handleItems(domains: items)
             }
             .store(in: &cancellables)
+        
+        viewModel.currentUser
+            .sink { [weak self] user in
+                self?.handleUserUpdate(user)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func handleUserUpdate(_ user: User?) {
+        currentUser = user
     }
     
     private func handleItems(domains: [UserDomain]) {

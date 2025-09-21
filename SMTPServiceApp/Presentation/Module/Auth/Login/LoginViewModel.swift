@@ -4,12 +4,14 @@ import Foundation
 protocol LoginViewModel: AuthViewModel {
     var email: String { get set }
     var password: String { get set }
+    var currentUser: User? { get }
     
     var statePublisher: AnyPublisher<ViewState, Never> { get }
     var isLoginEnabledPublisher: AnyPublisher<Bool, Never> { get }
     var errorMessagePublisher: AnyPublisher<String?, Never> { get }
     var emailValidationError: AnyPublisher<String?, Never> { get }
     var passwordValidationError: AnyPublisher<String?, Never> { get }
+    var userPublisher: AnyPublisher<User?, Never> { get }
     
     func login() async
     func updateEmail(_ email: String)
@@ -24,9 +26,12 @@ final class LoginViewModelImpl: LoginViewModel {
     @Published var state: ViewState = .idle
     @Published var isLoginEnabled = false
     @Published var errorMessage: String?
+    @Published private(set) var currentUser: User?
     
     private let loginUseCase: LoginUseCase
+    private let userStorage: UserStorage
     private var cancellables = Set<AnyCancellable>()
+    
     var emailValidationError: AnyPublisher<String?, Never> {
         $email
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
@@ -56,13 +61,19 @@ final class LoginViewModelImpl: LoginViewModel {
     var errorMessagePublisher: AnyPublisher<String?, Never> {
         $errorMessage.eraseToAnyPublisher()
     }
+    
+    var userPublisher: AnyPublisher<User?, Never> {
+        $currentUser.eraseToAnyPublisher()
+    }
 
     var onLoginSuccess: (() -> Void)?
     var onLoginError: ((Error) -> Void)?
     
-    init(loginUseCase: LoginUseCase) {
+    init(loginUseCase: LoginUseCase, userStorage: UserStorage) {
         self.loginUseCase = loginUseCase
+        self.userStorage = userStorage
         setupValidation()
+        loadCurrentUser()
     }
     
     @MainActor
@@ -73,10 +84,9 @@ final class LoginViewModelImpl: LoginViewModel {
         errorMessage = nil
         
         do {
-            let user = try await loginUseCase.execute(email: email, password: password)
+            currentUser = try await loginUseCase.execute(email: email, password: password)
             state = .success
             onLoginSuccess?()
-            print("Login successful for user: \(user.email)")
         } catch {
             let message = mapErrorToUserFriendlyMessage(error)
             errorMessage = message
@@ -110,14 +120,19 @@ final class LoginViewModelImpl: LoginViewModel {
         errorMessage = nil
     }
     
+    private func loadCurrentUser() {
+        // Load user from storage if available
+        if let userDTO = userStorage.getUser() {
+            currentUser = userDTO.toDomain()
+        }
+    }
+    
     // MARK: - Private Methods
     private func setupValidation() {
         // Combine email and password to determine if login should be enabled
         Publishers.CombineLatest3($email, $password, $state)
             .map { [weak self] email, password, state in
                 guard let self = self else { return false }
-                
-                // Don't enable during loading
                 guard !state.isLoading else { return false }
                 
                 // Check if inputs are valid

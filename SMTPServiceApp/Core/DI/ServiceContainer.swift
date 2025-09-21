@@ -1,6 +1,7 @@
 protocol ServiceContainer {
     var networkService: NetworkService { get }
     var authService: AuthenticationService { get }
+    var userService: UserService { get }
 }
 
 final class Service {
@@ -30,5 +31,9 @@ final class Service {
     
     private(set) lazy var authService: AuthenticationService = {
         return AuthenticationServiceImpl(cookieStorage: storage.cookieStorage)
+    }()
+    
+    private(set) lazy var userService: UserService = {
+        return UserServiceImpl(userStorage: storage.userStorage)
     }()
 }

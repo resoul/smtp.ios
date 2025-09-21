@@ -8,5 +8,6 @@ protocol ViewModelContainer {
     func makeRegistrationViewModel() -> RegistrationViewModel
     func makeLoginViewModel() -> LoginViewModel
     
+    func makeSettingsViewModel() -> SettingsViewModel
     func makeUserDomainViewModel() -> UserDomainViewModel
 }

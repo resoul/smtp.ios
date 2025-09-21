@@ -97,6 +97,10 @@ extension Container: ServiceContainer {
     var networkService: NetworkService {
         service.networkService
     }
+    
+    var userService: UserService {
+        service.userService
+    }
 }
 
 //MARK: -- Container ViewModel
@@ -127,7 +131,10 @@ extension Container: ViewModelContainer {
     }
     
     func makeLoginViewModel() -> LoginViewModel {
-        LoginViewModelImpl(loginUseCase: useCase.loginUseCase)
+        LoginViewModelImpl(
+            loginUseCase: useCase.loginUseCase,
+            userStorage: storage.userStorage
+        )
     }
     
     func makeRequestResetPasswordViewModel() -> RequestResetPasswordViewModel {
@@ -146,8 +153,13 @@ extension Container: ViewModelContainer {
         RegistrationViewModelImpl(registrationUseCase: useCase.registrationUseCase)
     }
     
+    func makeSettingsViewModel() -> SettingsViewModel {
+        SettingsViewModel(userService: userService)
+    }
+    
     func makeUserDomainViewModel() -> UserDomainViewModel {
         UserDomainViewModel(
+            userService: userService,
             listingUseCase: useCase.userDomainListingUseCase,
             deletingUseCase: useCase.userDomainDeletingUseCase
         )
@@ -182,6 +194,10 @@ extension Container: CoordinatorContainer {
     
     func makeDashboardCoordinator() -> DashboardCoordinator {
         DashboardCoordinator(container: self)
+    }
+    
+    func makeSettingsCoordinator() -> SettingsCoordinator {
+        SettingsCoordinator(container: self)
     }
     
     func makeUserDomainCoordinator() -> UserDomainCoordinator {
