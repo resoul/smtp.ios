@@ -1,5 +1,4 @@
 import UIKit
-import FontManager
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

@@ -1,6 +1,5 @@
 import AsyncDisplayKit
 import Combine
-import FontManager
 
 protocol AuthInputFieldNodeDelegate: AnyObject {
     func inputFieldDidBeginEditing(_ inputField: AuthInputFieldNode)
@@ -24,6 +23,7 @@ class AuthInputFieldNode: ASDisplayNode, UITextFieldDelegate {
             tf.layer.cornerRadius = 0
             tf.layer.borderWidth = 1
             tf.layer.borderColor = UIColor.hex("c1c1c1").cgColor
+            tf.textColor = UIColor.hex("4B5675")
             tf.font = UIFont.poppinsWithFallback(.regular, size: 16)
             tf.setLeftPaddingPoints(8)
             tf.setRightPaddingPoints(8)

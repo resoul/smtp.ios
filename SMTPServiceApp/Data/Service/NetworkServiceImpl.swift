@@ -2,6 +2,22 @@ import Foundation
 
 private struct EmptyData: Codable {}
 
+private let decoder: JSONDecoder = {
+    let decoder = JSONDecoder()
+    let isoFormatter = ISO8601DateFormatter()
+    isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds] // поддержка миллисекунд
+    decoder.dateDecodingStrategy = .custom { decoder -> Date in
+        let container = try decoder.singleValueContainer()
+        let dateStr = try container.decode(String.self)
+        if let date = isoFormatter.date(from: dateStr) {
+            return date
+        }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date format: \(dateStr)")
+    }
+    return decoder
+}()
+
+
 final class NetworkServiceImpl: NetworkService {
     private let baseURL: URL
     private let session: URLSession
@@ -174,7 +190,6 @@ final class NetworkServiceImpl: NetworkService {
     
     private func parseResponse<T: Codable>(data: Data, responseType: T.Type) throws -> T {
         do {
-            let decoder = JSONDecoder()
             return try decoder.decode(responseType, from: data)
         } catch {
             print("Decoding error: \(error)")

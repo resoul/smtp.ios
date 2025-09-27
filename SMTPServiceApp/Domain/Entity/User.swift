@@ -1,9 +1,11 @@
+import Foundation
+
 struct User {
     let uuid: String
     let email: String
     let firstName: String
     let lastName: String
-    let createdAt: String
+    let createdAt: Date
     let country: String?
     let state: String?
     let city: String?

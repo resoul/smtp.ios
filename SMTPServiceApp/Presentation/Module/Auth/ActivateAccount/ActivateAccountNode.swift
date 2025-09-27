@@ -1,7 +1,5 @@
 import AsyncDisplayKit
 import Combine
-import DeviceManager
-import FontManager
 
 enum ActivateAccountEvent {
     case resend

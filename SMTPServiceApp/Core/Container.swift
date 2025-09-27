@@ -1,13 +1,23 @@
 import UIKit
 import PreviewIntro
 
+protocol RepositoryContainer {
+    var authRepository: AuthRepository { get }
+    var userDomainRepository: UserDomainRepository { get }
+}
+
+protocol StorageContainer {
+    var cookieStorage: CookieStorage { get }
+    var userStorage: UserStorage { get }
+    var appStorage: AppStorage { get }
+}
+
 //MARK: -- Main Container
 final class Container {
     private let appConfiguration: AppConfiguration
     private let themeManager: ThemeManager
     private let service: Service
     private let storage: Storage
-    private let useCase: UseCase
     private let repository: Repository
     
     init(appConfiguration: AppConfiguration, source: DataSource, themeManager: ThemeManager) {
@@ -16,49 +26,89 @@ final class Container {
         self.storage = Storage(source: source)
         self.service = Service(appConfiguration: appConfiguration, storage: storage)
         self.repository = Repository(service: service, storage: storage)
-        self.useCase = UseCase(repository: repository)
     }
+}
+
+final class Storage {
+    private let source: DataSource
+    
+    init(source: DataSource) {
+        self.source = source
+    }
+    
+    private(set) lazy var cookieStorage: CookieStorage = {
+        return CookieStorage(dataSource: source)
+    }()
+    
+    private(set) lazy var userStorage: UserStorage = {
+        return UserStorage(dataSource: source)
+    }()
+    
+    private(set) lazy var appStorage: AppStorage = {
+        return AppStorage(dataSource: source)
+    }()
+}
+
+final class Service {
+    private let appConfiguration: AppConfiguration
+    private let storage: Storage
+    
+    init(appConfiguration: AppConfiguration, storage: Storage) {
+        self.appConfiguration = appConfiguration
+        self.storage = storage
+    }
+    
+    // Router that handles auth-related events coming from the network layer
+    private lazy var authEventRouter: AuthEventRouter = {
+        return AuthEventRouter(
+            cookieStorage: storage.cookieStorage,
+            userStorage: storage.userStorage
+        )
+    }()
+    
+    private(set) lazy var networkService: NetworkService = {
+        return NetworkServiceImpl(
+            config: appConfiguration.networkConfig,
+            cookieStorage: storage.cookieStorage,
+            authEventHandler: authEventRouter
+        )
+    }()
+    
+    private(set) lazy var authService: AuthenticationService = {
+        return AuthenticationServiceImpl(cookieStorage: storage.cookieStorage)
+    }()
+    
+    private(set) lazy var userService: UserService = {
+        return UserServiceImpl(userStorage: storage.userStorage)
+    }()
+}
+
+final class Repository {
+    private let service: Service
+    private let storage: Storage
+    
+    init(service: Service, storage: Storage) {
+        self.service = service
+        self.storage = storage
+    }
+    
+    private(set) lazy var authRepository: AuthRepository = {
+        return AuthRepositoryImpl(
+            network: service.networkService,
+            cookieStorage: storage.cookieStorage,
+            userStorage: storage.userStorage
+        )
+    }()
+    
+    private(set) lazy var userDomainRepository: UserDomainRepository = {
+        return UserDomainRepositoryImpl(network: service.networkService)
+    }()
 }
 
 //MARK: -- Container App Configuration
 extension Container {
     var showPreviewIntro: Bool {
         appConfiguration.previewIntoEnabled
-    }
-}
-
-//MARK: -- Container UseCase
-extension Container: UseCaseContainer {
-    var resetPasswordUseCase: ResetPasswordUseCase {
-        useCase.resetPasswordUseCase
-    }
-    
-    var resendActivationEmailUseCase: ResendActivationEmailUseCase {
-        useCase.resendActivationEmailUseCase
-    }
-    
-    var forgotPasswordUseCase: ForgotPasswordUseCase {
-        useCase.forgotPasswordUseCase
-    }
-    
-    var registrationUseCase: RegistrationUseCase {
-        useCase.registrationUseCase
-    }
-    
-    var loginUseCase: LoginUseCase {
-        useCase.loginUseCase
-    }
-    
-    var logoutUseCase: LogoutUseCase {
-        useCase.logoutUseCase
-    }
-    
-    var userDomainListingUseCase: UserDomainListingUseCase {
-        useCase.userDomainListingUseCase
-    }
-    
-    var userDomainDeletingUseCase: UserDomainDeletingUseCase {
-        useCase.userDomainDeletingUseCase
     }
 }
 
@@ -89,7 +139,7 @@ extension Container: StorageContainer {
 }
 
 //MARK: -- Container Service
-extension Container: ServiceContainer {
+extension Container {
     var authService: AuthenticationService {
         service.authService
     }
@@ -104,7 +154,7 @@ extension Container: ServiceContainer {
 }
 
 //MARK: -- Container ViewModel
-extension Container: ViewModelContainer {
+extension Container {
     func makePreviewIntroViewModel() -> PreviewIntroViewModel {
         //MARK: TODO - make data source for preview intro
         let theme = themeManager.currentTheme.previewIntroPresentationData
@@ -132,25 +182,33 @@ extension Container: ViewModelContainer {
     
     func makeLoginViewModel() -> LoginViewModel {
         LoginViewModelImpl(
-            loginUseCase: useCase.loginUseCase,
+            loginUseCase: LoginUseCaseImpl(authRepository: repository.authRepository),
             userStorage: storage.userStorage
         )
     }
     
     func makeRequestResetPasswordViewModel() -> RequestResetPasswordViewModel {
-        RequestResetPasswordViewModel(resetPasswordUseCase: useCase.resetPasswordUseCase)
+        RequestResetPasswordViewModel(
+            resetPasswordUseCase: ResetPasswordUseCaseImpl(authRepository: repository.authRepository)
+        )
     }
     
     func makeActivateAccountViewModel() -> ActivateAccountViewModel {
-        ActivateAccountViewModel(resendActivationEmailUseCase: useCase.resendActivationEmailUseCase)
+        ActivateAccountViewModel(
+            resendActivationEmailUseCase: ResendActivationEmailUseCaseImpl(authRepository: repository.authRepository)
+        )
     }
     
     func makeForgotPasswordViewModel() -> ForgotPasswordViewModel {
-        ForgotPasswordViewModel(forgotPasswordUseCase: useCase.forgotPasswordUseCase)
+        ForgotPasswordViewModel(
+            forgotPasswordUseCase: ForgotPasswordUseCaseImpl(authRepository: repository.authRepository)
+        )
     }
     
     func makeRegistrationViewModel() -> RegistrationViewModel {
-        RegistrationViewModelImpl(registrationUseCase: useCase.registrationUseCase)
+        RegistrationViewModelImpl(
+            registrationUseCase: RegistrationUseCaseImpl(authRepository: repository.authRepository)
+        )
     }
     
     func makeSettingsViewModel() -> SettingsViewModel {
@@ -160,14 +218,14 @@ extension Container: ViewModelContainer {
     func makeUserDomainViewModel() -> UserDomainViewModel {
         UserDomainViewModel(
             userService: userService,
-            listingUseCase: useCase.userDomainListingUseCase,
-            deletingUseCase: useCase.userDomainDeletingUseCase
+            listingUseCase: UserDomainListingUseCaseImpl(userDomainRepository: repository.userDomainRepository),
+            deletingUseCase: UserDomainDeletingUseCaseImpl(userDomainRepository: repository.userDomainRepository)
         )
     }
 }
 
 //MARK: -- Container Coordinator
-extension Container: CoordinatorContainer {
+extension Container {
     func makeAppCoordinator(window: UIWindow) -> AppCoordinator {
         let navigationController = UINavigationController()
         

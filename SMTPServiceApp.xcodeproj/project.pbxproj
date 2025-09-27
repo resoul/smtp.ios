@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */; };
-		89F6165F2E6CA24700BD7B3B /* FontManager in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165E2E6CA24700BD7B3B /* FontManager */; };
 		89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */ = {isa = PBXBuildFile; productRef = 89F616612E6CA26200BD7B3B /* PreviewIntro */; };
-		89F616CF2E6CD99500BD7B3B /* DeviceManager in Frameworks */ = {isa = PBXBuildFile; productRef = 89F616CE2E6CD99500BD7B3B /* DeviceManager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,10 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89F616CF2E6CD99500BD7B3B /* DeviceManager in Frameworks */,
 				89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */,
 				89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */,
-				89F6165F2E6CA24700BD7B3B /* FontManager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,9 +86,7 @@
 			name = SMTPServiceApp;
 			packageProductDependencies = (
 				89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */,
-				89F6165E2E6CA24700BD7B3B /* FontManager */,
 				89F616612E6CA26200BD7B3B /* PreviewIntro */,
-				89F616CE2E6CD99500BD7B3B /* DeviceManager */,
 			);
 			productName = SMTPServiceApp;
 			productReference = 895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */;
@@ -124,9 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */,
-				89F6165D2E6CA24700BD7B3B /* XCRemoteSwiftPackageReference "FontManager" */,
 				89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */,
-				89F616CD2E6CD99500BD7B3B /* XCRemoteSwiftPackageReference "DeviceManager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 895E07CC2E5F9546003A1A83 /* Products */;
@@ -164,9 +156,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SMTPServiceApp/Resources/SMTPServiceApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6MWUU9A34L;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -200,9 +192,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SMTPServiceApp/Resources/SMTPServiceApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6MWUU9A34L;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -386,28 +378,12 @@
 				minimumVersion = 3.2.0;
 			};
 		};
-		89F6165D2E6CA24700BD7B3B /* XCRemoteSwiftPackageReference "FontManager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/resoul/FontManager.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.1;
-			};
-		};
 		89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/resoul/PreviewIntro.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.1.0;
-			};
-		};
-		89F616CD2E6CD99500BD7B3B /* XCRemoteSwiftPackageReference "DeviceManager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/resoul/DeviceManager.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -418,20 +394,10 @@
 			package = 89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */;
 			productName = AsyncDisplayKit;
 		};
-		89F6165E2E6CA24700BD7B3B /* FontManager */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 89F6165D2E6CA24700BD7B3B /* XCRemoteSwiftPackageReference "FontManager" */;
-			productName = FontManager;
-		};
 		89F616612E6CA26200BD7B3B /* PreviewIntro */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */;
 			productName = PreviewIntro;
-		};
-		89F616CE2E6CD99500BD7B3B /* DeviceManager */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 89F616CD2E6CD99500BD7B3B /* XCRemoteSwiftPackageReference "DeviceManager" */;
-			productName = DeviceManager;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

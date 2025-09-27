@@ -1,7 +1,5 @@
 import AsyncDisplayKit
 import Combine
-import FontManager
-import DeviceManager
 
 enum LoginNodeEvent {
     case registration
@@ -142,7 +140,7 @@ final class LoginNode: AuthNode, UIGestureRecognizerDelegate {
             ]),
             footer
         ]
-        
+
         return ASInsetLayoutSpec(
             insets: DeviceManager.shared.getSafeAreaInsets(),
             child: layout

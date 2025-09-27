@@ -1,10 +1,5 @@
 import UIKit
 
-protocol AuthViewModel {
-    var state: ViewState { get }
-    var errorMessage: String? { get }
-}
-
 class AuthBaseController: UIViewController, UIGestureRecognizerDelegate {
     weak var coordinator: AuthCoordinator?
 

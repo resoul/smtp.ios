@@ -1,5 +1,4 @@
 import AsyncDisplayKit
-import FontManager
 
 final class UserDomainValidationLineNode: DisplayNode {
     private let headline: String

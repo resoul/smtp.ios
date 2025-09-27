@@ -1,7 +1,5 @@
 import AsyncDisplayKit
 import Combine
-import FontManager
-import DeviceManager
 
 enum ForgotPasswordNodeEvent {
     case registration

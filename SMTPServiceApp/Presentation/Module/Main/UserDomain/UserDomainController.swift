@@ -4,9 +4,12 @@ import Combine
 final class UserDomainController: MainCollectionController {
     private var cancellables = Set<AnyCancellable>()
     weak var coordinator: UserDomainCoordinator?
-    let collectionNode: ASCollectionNode
     let viewModel: UserDomainViewModel
     var currentUser: User?
+    
+    var collectionNode: ASCollectionNode {
+        return node
+    }
     
     var currentPage: Int = 1
     var totalCount: Int = 0
@@ -14,14 +17,7 @@ final class UserDomainController: MainCollectionController {
     
     init(viewModel: UserDomainViewModel) {
         self.viewModel = viewModel
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 16
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        
-        collectionNode = ASCollectionNode(collectionViewLayout: layout)
-        super.init(node: collectionNode)
+        super.init(node: ASCollectionNode(collectionViewLayout: UserDomainCollectionLayout()))
         collectionNode.dataSource = self
         collectionNode.delegate = self
     }

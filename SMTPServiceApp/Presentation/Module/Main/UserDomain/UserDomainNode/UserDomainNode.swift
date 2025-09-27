@@ -1,5 +1,4 @@
 import AsyncDisplayKit
-import FontManager
 import Combine
 
 final class UserDomainNode: DisplayNode {
