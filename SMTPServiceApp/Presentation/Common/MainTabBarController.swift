@@ -40,10 +40,8 @@ final class MainTabBarController: UITabBarController, UITabBarControllerDelegate
 
     // MARK: - UITabBarControllerDelegate
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        // Handle tab selection
         guard let tabType = TabType(rawValue: tabBarController.selectedIndex) else { return }
-
-        // Notify coordinator about tab change
+        coordinator?.didSelectTab(tabType)
         handleTabSelection(tabType)
     }
 
@@ -84,5 +82,6 @@ final class MainTabBarController: UITabBarController, UITabBarControllerDelegate
     private func trackTabSelection(_ tabType: TabType) {
         // Analytics tracking
         // AnalyticsManager.shared.track("tab_selected", parameters: ["tab": tabType.title])
+        print("📊 Tab selected: \(tabType.title)")
     }
 }

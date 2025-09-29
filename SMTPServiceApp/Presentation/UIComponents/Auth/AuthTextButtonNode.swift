@@ -1,5 +1,4 @@
 import AsyncDisplayKit
-import FontManager
 
 final class AuthTextButtonNode: ASButtonNode {
     init(

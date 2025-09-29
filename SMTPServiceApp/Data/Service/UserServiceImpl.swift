@@ -1,33 +1,21 @@
 import Combine
 
 final class UserServiceImpl: UserService {
-    @Published private(set) var currentUser: User?
+    private var current: User?
     private let userStorage: UserStorage
-    
-    var userPublisher: AnyPublisher<User?, Never> {
-        $currentUser.eraseToAnyPublisher()
-    }
-    
+
     init(userStorage: UserStorage) {
         self.userStorage = userStorage
-        loadCurrentUser()
-    }
-    
-    func setCurrentUser(_ user: User?) {
-        currentUser = user
+        setCurrentUser()
     }
     
     func getCurrentUser() -> User? {
-        return currentUser
+        current
     }
     
-    func clearCurrentUser() {
-        currentUser = nil
-    }
-    
-    private func loadCurrentUser() {
+    private func setCurrentUser() {
         if let userDTO = userStorage.getUser() {
-            currentUser = userDTO.toDomain()
+            current = userDTO.toDomain()
         }
     }
 }

@@ -7,7 +7,7 @@ struct UserDomainListingRequest: Codable {
     init(
         page: Int,
         perPage: Int,
-        orderBy: String = "domainName",
+        orderBy: String = "updatedAt",
         orderDirection: String = "desc"
     ) {
         self.page = page

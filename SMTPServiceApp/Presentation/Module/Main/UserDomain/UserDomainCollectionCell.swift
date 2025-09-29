@@ -2,13 +2,14 @@ import AsyncDisplayKit
 
 final class UserDomainCollectionCell: ASCellNode {
     private let userDomainNode: UserDomainNode
-    init(userDomain: UserDomain, onDelete: (() -> Void)? = nil, onTest: (() -> Void)? = nil) {
-        userDomainNode = UserDomainNode(userDomain: userDomain, onDelete: onDelete, onTest: onTest)
+    init(user: User?, userDomain: UserDomain, onDelete: (() -> Void)? = nil, onTest: (() -> Void)? = nil) {
+        self.userDomainNode = UserDomainNode(user: user, userDomain: userDomain, onDelete: onDelete, onTest: onTest)
         super.init()
-        automaticallyManagesSubnodes = true
+        self.selectionStyle = .none
+        self.addSubnode(self.userDomainNode)
     }
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-        ASWrapperLayoutSpec(layoutElement: userDomainNode)
+        return ASInsetLayoutSpec(insets: .zero, child: self.userDomainNode)
     }
 }

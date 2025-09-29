@@ -1,5 +1,4 @@
 import AsyncDisplayKit
-import FontManager
 
 final class ButtonInfoNode: ASButtonNode {
     init(
