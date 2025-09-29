@@ -5,11 +5,11 @@ final class UpdateTokenController: ASDKViewController<ASDisplayNode> {
     private let titleNode = ASTextNode()
     private var nameTextField = UITextField()
     private let textFieldNode = ASDisplayNode(viewBlock: { UITextField() })
-    private let createButtonNode = CreateButtonNode(text: "Create Token")
+    private let updateButtonNode = CreateButtonNode(text: "Update Token")
     private let cancelButtonNode = ASButtonNode()
     
     private let viewModel: TokenViewModel
-    var onTokenCreated: (() -> Void)?
+    var onTokenUpdated: (() -> Void)?
     
     init(viewModel: TokenViewModel) {
         self.viewModel = viewModel
@@ -39,7 +39,7 @@ final class UpdateTokenController: ASDKViewController<ASDisplayNode> {
         node.backgroundColor = .systemBackground
         
         titleNode.attributedText = NSAttributedString(
-            string: "Generate New Token",
+            string: "Update Token",
             attributes: [
                 .font: UIFont.systemFont(ofSize: 24, weight: .bold),
                 .foregroundColor: UIColor.label
@@ -49,14 +49,19 @@ final class UpdateTokenController: ASDKViewController<ASDisplayNode> {
         cancelButtonNode.setTitle("Cancel", with: UIFont.systemFont(ofSize: 16), with: .secondaryLabel, for: .normal)
         cancelButtonNode.addTarget(self, action: #selector(cancelTapped), forControlEvents: .touchUpInside)
         
-        createButtonNode.onTap = { [weak self] in
-            self?.createToken()
+        updateButtonNode.onTap = { [weak self] in
+            self?.updateToken()
         }
     }
     
     private func setupTextField() {
         guard let textField = textFieldNode.view as? UITextField else { return }
         nameTextField = textField
+        
+        // Pre-fill with current token name if available
+        if let token = viewModel.getToken() {
+            textField.text = token.tokenName
+        }
         
         textField.placeholder = "Token name"
         textField.borderStyle = .roundedRect
@@ -79,14 +84,14 @@ final class UpdateTokenController: ASDKViewController<ASDisplayNode> {
         
         textFieldNode.style.height = ASDimension(unit: .points, value: 44)
         
-        createButtonNode.style.height = ASDimension(unit: .points, value: 50)
+        updateButtonNode.style.height = ASDimension(unit: .points, value: 50)
         
         let mainStack = ASStackLayoutSpec(
             direction: .vertical,
             spacing: 24,
             justifyContent: .start,
             alignItems: .stretch,
-            children: [headerStack, textFieldNode, createButtonNode]
+            children: [headerStack, textFieldNode, updateButtonNode]
         )
         
         return ASInsetLayoutSpec(
@@ -99,15 +104,29 @@ final class UpdateTokenController: ASDKViewController<ASDisplayNode> {
         dismiss(animated: true)
     }
 
-    private func createToken() {
+    private func updateToken() {
         guard let name = nameTextField.text, !name.isEmpty else {
             showError(message: "Please enter a token name")
             return
         }
         
+        guard let token = viewModel.getToken() else {
+            showError(message: "Token not found")
+            return
+        }
+        
         Task {
-            try await viewModel.create(tokenName: name)
-            dismiss(animated: true)
+            do {
+                try await viewModel.update(
+                    tokenName: name,
+                    token: token.token,
+                    state: token.state
+                )
+                onTokenUpdated?()
+                dismiss(animated: true)
+            } catch {
+                showError(message: "Failed to update token: \(error.localizedDescription)")
+            }
         }
     }
     
@@ -120,7 +139,7 @@ final class UpdateTokenController: ASDKViewController<ASDisplayNode> {
 
 extension UpdateTokenController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        createToken()
+        updateToken()
         return true
     }
 }

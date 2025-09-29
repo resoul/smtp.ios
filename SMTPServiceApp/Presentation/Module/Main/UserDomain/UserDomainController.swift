@@ -3,6 +3,7 @@ import Combine
 
 final class UserDomainController: MainCollectionController {
     private var cancellables = Set<AnyCancellable>()
+    private var task: Task<Void, Never>?
     weak var coordinator: UserDomainCoordinator?
     let viewModel: UserDomainViewModel
 
@@ -27,9 +28,26 @@ final class UserDomainController: MainCollectionController {
     }
     
     func loadMoreData() {
-        Task {
-            try await viewModel.fetchListings()
-            currentPage += 1
+        task?.cancel()
+        
+        task = Task { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                try await self.viewModel.fetchListings()
+                
+                guard !Task.isCancelled else {
+                    print("⚠️ Loading cancelled")
+                    return
+                }
+                
+                await MainActor.run {
+                    self.currentPage += 1
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+                print("❌ Error loading: \(error)")
+            }
         }
     }
     
@@ -69,7 +87,13 @@ final class UserDomainController: MainCollectionController {
     }
     
     deinit {
+        task?.cancel()
         cancellables.removeAll()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        task?.cancel()
     }
     
     required init?(coder: NSCoder) {

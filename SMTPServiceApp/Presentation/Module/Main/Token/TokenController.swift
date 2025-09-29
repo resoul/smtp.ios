@@ -3,6 +3,7 @@ import Combine
 
 final class TokenController: MainTableController {
     private var cancellables = Set<AnyCancellable>()
+    private var task: Task<Void, Never>?
     weak var coordinator: TokenCoordinator?
     let viewModel: TokenViewModel
     var currentSettingsTab: TokenViewModel.SettingsTab = .smtp
@@ -29,12 +30,29 @@ final class TokenController: MainTableController {
     }
     
     func loadMoreData() {
-        Task {
-            try await viewModel.fetchListings()
-            currentPage += 1
+        task?.cancel()
+        
+        task = Task { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                try await self.viewModel.fetchListings()
+                
+                guard !Task.isCancelled else {
+                    print("⚠️ Loading cancelled")
+                    return
+                }
+                
+                await MainActor.run {
+                    self.currentPage += 1
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+                print("❌ Error loading: \(error)")
+            }
         }
     }
-    
+
     override func setupBindings() {
         viewModel.totalItems
             .sink { [weak self] total in
@@ -58,10 +76,8 @@ final class TokenController: MainTableController {
     private func reloadTokens() {
         items.removeAll()
         currentPage = 1
-        tableNode.reloadSections(
-            IndexSet(integer: TokenViewModel.Section.tokens.rawValue),
-            with: .automatic
-        )
+        let indexSet = IndexSet(integer: TokenViewModel.Section.tokens.rawValue)
+        tableNode.reloadSections(indexSet, with: .automatic)
         loadMoreData()
     }
     
@@ -174,13 +190,29 @@ final class TokenController: MainTableController {
     
     func handleCreateToken() {
         coordinator?.showCreateToken(from: self)
+        guard let tokensHeaderSection = TokenViewModel.Section.allCases.firstIndex(of: .tokensHeader) else {
+            return
+        }
+        
+        guard tableNode.numberOfRows(inSection: tokensHeaderSection) > 0 else {
+            return
+        }
+        
+        let indexPath = IndexPath(row: 0, section: tokensHeaderSection)
+        tableNode.scrollToRow(at: indexPath, at: .top, animated: true)
     }
     
     override func applyTheme(_ theme: any Theme) {
         tableNode.backgroundColor = theme.mainPresentationData.backgroundColor
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        task?.cancel()
+    }
+    
     deinit {
+        task?.cancel()
         cancellables.removeAll()
     }
     

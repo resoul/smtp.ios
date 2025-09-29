@@ -1,6 +1,7 @@
 import AsyncDisplayKit
 
 final class CreateTokenController: ASDKViewController<ASDisplayNode> {
+    private var task: Task<Void, Never>?
     private let containerNode = ASDisplayNode()
     private let titleNode = ASTextNode()
     private var nameTextField = UITextField()
@@ -105,10 +106,37 @@ final class CreateTokenController: ASDKViewController<ASDisplayNode> {
             return
         }
         
-        Task {
-            try await viewModel.create(tokenName: name)
-            dismiss(animated: true)
+        task?.cancel()
+        
+        task = Task { [weak self] in
+            guard let self = self else { return }
+            
+            do {
+                try await viewModel.create(tokenName: name)
+                
+                guard !Task.isCancelled else {
+                    print("⚠️ Loading cancelled")
+                    return
+                }
+                
+                await MainActor.run {
+                    self.dismiss(animated: true)
+                    ToastServiceImpl.shared.show(message: "Token created successfully", style: .success, duration: 3.0, position: .top)
+                }
+            } catch {
+                guard !Task.isCancelled else { return }
+                self.showSuccessToast("Failed to create token")
+            }
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        task?.cancel()
+    }
+    
+    deinit {
+        task?.cancel()
     }
     
     private func showError(message: String) {

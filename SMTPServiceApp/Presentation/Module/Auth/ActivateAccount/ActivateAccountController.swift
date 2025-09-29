@@ -5,6 +5,7 @@ final class ActivateAccountController: AuthBaseController {
     private var cancellables = Set<AnyCancellable>()
     private let viewNode = ActivateAccountNode()
     private let viewModel: ActivateAccountViewModel
+    private var task: Task<Void, Never>?
     
     override func setupView() {
         view = viewNode.view
@@ -64,10 +65,11 @@ final class ActivateAccountController: AuthBaseController {
     
     private func performResendEmail() {
         guard case .idle = viewModel.state else { return }
+        task?.cancel()
         
-        Task {
+        task = Task {
             await viewModel.sendResetLink()
-            print("sendResetLinkEnd")
+            guard !Task.isCancelled else { return }
             await MainActor.run {
                 if case .success = self.viewModel.state {
                     self.viewModel.clearSuccess()
@@ -84,7 +86,13 @@ final class ActivateAccountController: AuthBaseController {
     }
     
     deinit {
+        task?.cancel()
         cancellables.removeAll()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        task?.cancel()
     }
     
     init(email: String, viewModel: ActivateAccountViewModel) {
