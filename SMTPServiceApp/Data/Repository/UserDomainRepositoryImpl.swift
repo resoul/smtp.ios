@@ -20,9 +20,26 @@ final class UserDomainRepositoryImpl: UserDomainRepository {
             responseType: ListingResponseDTO<UserDomainDTO>.self
         )
         
-        return ListingResponse<UserDomain>(
-            items: response.items.map { $0.toDomain() },
-            pagination: response.pagination.toDomain()
+        return response.map { $0.toDomain() }
+    }
+    
+    func create(domainName: String) async throws -> ListingResponse<UserDomain> {
+        let request = UserDomainCreatingRequest(domainName: domainName)
+        let response = try await network.request(
+            endpoint: UserDomainEndpoint.create(request),
+            responseType: ListingResponseDTO<UserDomainDTO>.self
         )
+        
+        return response.map { $0.toDomain() }
+    }
+    
+    func verify(domainUuid: UUID) async throws -> ListingResponse<UserDomain> {
+        let request = UserDomainVerificationRequest(domainUuid: domainUuid)
+        let response = try await network.request(
+            endpoint: UserDomainEndpoint.verify(request),
+            responseType: ListingResponseDTO<UserDomainDTO>.self
+        )
+        
+        return response.map { $0.toDomain() }
     }
 }

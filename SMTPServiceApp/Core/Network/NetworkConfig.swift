@@ -8,7 +8,7 @@ struct NetworkConfig {
     static let development = NetworkConfig(
         baseURL: "http://api.ems.em.localhost",
         timeout: 30.0,
-        enableLogging: true
+        enableLogging: false
     )
     
     static let staging = NetworkConfig(

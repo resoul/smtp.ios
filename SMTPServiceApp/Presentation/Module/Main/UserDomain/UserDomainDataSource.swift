@@ -6,17 +6,17 @@ extension UserDomainController: ASCollectionDataSource, ASCollectionDelegate {
         _ collectionNode: ASCollectionNode,
         numberOfItemsInSection section: Int
     ) -> Int {
-        totalCount
+        items.count
     }
     
     func collectionNode(
         _ collectionNode: ASCollectionNode,
         nodeBlockForItemAt indexPath: IndexPath
     ) -> ASCellNodeBlock {
-        // Capture a weak reference to self to avoid retain cycles
         return { [weak self] in
             guard let self = self else { return ASCellNode() }
             return UserDomainCollectionCell(
+                user: viewModel.getCurrentUser(),
                 userDomain: self.items[indexPath.item],
                 onDelete: { [weak self] in
                     self?.handleDeleteRequest(at: indexPath)
@@ -60,16 +60,26 @@ extension UserDomainController: ASCollectionDataSource, ASCollectionDelegate {
     
     func collectionNode(_ collectionNode: ASCollectionNode, willDisplayItemWith node: ASCellNode) {
         let threshold = 3
-        guard threshold >= items.count else {
-            return
-        }
-        
         let lastIndex = items.count - threshold
-        if let indexPath = collectionNode.indexPath(for: node), indexPath.item == lastIndex {
-            print("lastIndex", lastIndex)
-            print("indexPath", indexPath.item)
+        if let indexPath = collectionNode.indexPath(for: node),
+           indexPath.row == lastIndex,
+           items.count < totalCount {
             loadMoreData()
         }
+        
+        
+        
+//        let threshold = 3
+//        guard threshold >= items.count else {
+//            return
+//        }
+//        
+//        let lastIndex = items.count - threshold
+//        if let indexPath = collectionNode.indexPath(for: node), indexPath.item == lastIndex {
+//            print("lastIndex", lastIndex)
+//            print("indexPath", indexPath.item)
+//            loadMoreData()
+//        }
     }
     
     func numberOfSections(in collectionNode: ASCollectionNode) -> Int {

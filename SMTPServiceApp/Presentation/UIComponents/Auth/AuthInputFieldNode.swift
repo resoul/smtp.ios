@@ -1,6 +1,5 @@
 import AsyncDisplayKit
 import Combine
-import FontManager
 
 protocol AuthInputFieldNodeDelegate: AnyObject {
     func inputFieldDidBeginEditing(_ inputField: AuthInputFieldNode)

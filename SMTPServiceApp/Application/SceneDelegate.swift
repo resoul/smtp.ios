@@ -1,10 +1,10 @@
 import UIKit
-import FontManager
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     private var appCoordinator: AppCoordinator?
+    private let themeManager: ThemeManager = .shared
 
     func scene(
         _ scene: UIScene,
@@ -18,25 +18,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         FontManager.registerFonts(fontFamily: Fonts.Poppins.self)
         AppThemeSetup.setupCustomThemes()
 
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-        window?.windowScene = windowScene
-        
         let config = AppConfigurationBuilder()
             .withNetworkConfig(.development)
-            .withAnalytics(enabled: false)
-            .withDebugMode(enabled: true)
             .withOfflineMode(enabled: false)
             .withPreviewInto(enabled: false)
             .build()
         
         let container = Container(
+            windowScene: windowScene,
             appConfiguration: config,
             source: UserDefaultsDataSource(),
             themeManager: ThemeManager.shared
         )
         
-        appCoordinator = container.makeAppCoordinator(window: window!)
+        window = container.makeMainWindow()
+        appCoordinator = container.makeAppCoordinator()
         appCoordinator?.start()
+        appCoordinator?.restoreAppState()
     }
     
     func windowScene(
@@ -60,10 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+        appCoordinator?.saveAppState()
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -72,8 +67,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
+        appCoordinator?.saveAppState()
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -82,11 +76,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-
-        // Save changes in the application's managed object context when the application transitions to the background.
+        appCoordinator?.saveAppState()
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }

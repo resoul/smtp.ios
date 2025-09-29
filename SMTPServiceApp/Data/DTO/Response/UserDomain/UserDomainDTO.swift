@@ -1,4 +1,4 @@
-import UIKit
+import Foundation
 
 struct UserDomainDTO: Codable {
     let uuid: UUID

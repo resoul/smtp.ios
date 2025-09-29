@@ -994,59 +994,59 @@ extension StatusSelectorView: UITableViewDataSource, UITableViewDelegate {
 }
 
 // MARK: - Usage Examples
-class ExampleViewController: UIViewController {
-    private let singleSelectView = StatusSelectorView()
-    private let multiSelectView = StatusSelectorView()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        title = "Status Selector Example"
-        
-        setupSingleSelect()
-        setupMultiSelect()
-        setupLayout()
-    }
-    
-    private func setupSingleSelect() {
-        // Single select configuration (default)
-        singleSelectView.selectionMode = .single
-        singleSelectView.placeholder = "Choose Status"
-        singleSelectView.translatesAutoresizingMaskIntoConstraints = false
-        
-        singleSelectView.onSingleSelectionChanged = { status in
-            print("Single selection: \(status?.title ?? "None")")
-        }
-        
-        view.addSubview(singleSelectView)
-    }
-    
-    private func setupMultiSelect() {
-        // Multi select configuration
-        multiSelectView.selectionMode = .multiple
-        multiSelectView.placeholder = "Select Multiple Statuses"
-        multiSelectView.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Set initial selection for demo
-        let preselectedStatuses = EmailStatus.allStatuses.filter { ["delivered", "hardBounce"].contains($0.id) }
-        multiSelectView.setSelectedStatuses(preselectedStatuses)
-        
-        multiSelectView.onSelectionChanged = { statuses in
-            print("Multiple selection: \(statuses.map { $0.title })")
-        }
-        
-        view.addSubview(multiSelectView)
-    }
-    
-    private func setupLayout() {
-        NSLayoutConstraint.activate([
-            singleSelectView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            singleSelectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            singleSelectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            multiSelectView.topAnchor.constraint(equalTo: singleSelectView.bottomAnchor, constant: 30),
-            multiSelectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            multiSelectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
-    }
-}
+//class ExampleViewController: UIViewController {
+//    private let singleSelectView = StatusSelectorView()
+//    private let multiSelectView = StatusSelectorView()
+//    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        view.backgroundColor = .systemBackground
+//        title = "Status Selector Example"
+//        
+//        setupSingleSelect()
+//        setupMultiSelect()
+//        setupLayout()
+//    }
+//    
+//    private func setupSingleSelect() {
+//        // Single select configuration (default)
+//        singleSelectView.selectionMode = .single
+//        singleSelectView.placeholder = "Choose Status"
+//        singleSelectView.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        singleSelectView.onSingleSelectionChanged = { status in
+//            print("Single selection: \(status?.title ?? "None")")
+//        }
+//        
+//        view.addSubview(singleSelectView)
+//    }
+//    
+//    private func setupMultiSelect() {
+//        // Multi select configuration
+//        multiSelectView.selectionMode = .multiple
+//        multiSelectView.placeholder = "Select Multiple Statuses"
+//        multiSelectView.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        // Set initial selection for demo
+//        let preselectedStatuses = EmailStatus.allStatuses.filter { ["delivered", "hardBounce"].contains($0.id) }
+//        multiSelectView.setSelectedStatuses(preselectedStatuses)
+//        
+//        multiSelectView.onSelectionChanged = { statuses in
+//            print("Multiple selection: \(statuses.map { $0.title })")
+//        }
+//        
+//        view.addSubview(multiSelectView)
+//    }
+//    
+//    private func setupLayout() {
+//        NSLayoutConstraint.activate([
+//            singleSelectView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+//            singleSelectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+//            singleSelectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+//            
+//            multiSelectView.topAnchor.constraint(equalTo: singleSelectView.bottomAnchor, constant: 30),
+//            multiSelectView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+//            multiSelectView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+//        ])
+//    }
+//}

@@ -2,6 +2,7 @@ import UIKit
 
 protocol MainTabBarCoordinatorDelegate: AnyObject {
     func coordinatorDidLogout(_ coordinator: MainTabBarCoordinator)
+    func coordinatorDidChangeTab(_ coordinator: MainTabBarCoordinator, to tab: TabType)
 }
 
 final class MainTabBarCoordinator: Coordinator {
@@ -58,7 +59,7 @@ final class MainTabBarCoordinator: Coordinator {
         case .dashboard:
             return container.makeDashboardCoordinator()
         case .settings:
-            return container.makeDashboardCoordinator()
+            return container.makeTokenCoordinator()
         case .domains:
             return container.makeUserDomainCoordinator()
         case .suppression:
@@ -89,6 +90,7 @@ final class MainTabBarCoordinator: Coordinator {
     
     func selectTab(_ tab: TabType) {
         tabBarController.selectedIndex = tab.rawValue
+        delegate?.coordinatorDidChangeTab(self, to: tab)
     }
 
     func setBadge(for tab: TabType, value: String?) {
@@ -102,5 +104,9 @@ final class MainTabBarCoordinator: Coordinator {
     
     func didLogout() {
         delegate?.coordinatorDidLogout(self)
+    }
+    
+    func didSelectTab(_ tab: TabType) {
+        delegate?.coordinatorDidChangeTab(self, to: tab)
     }
 }

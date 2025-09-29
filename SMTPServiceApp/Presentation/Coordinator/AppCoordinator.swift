@@ -75,30 +75,49 @@ final class AppCoordinator: Coordinator {
     
     // MARK: - State Restoration
     func saveAppState() {
-        guard let mainCoordinator = mainTabBarCoordinator else { return }
-        let currentTab = mainCoordinator.tabBarController.selectedIndex
-        
-        guard var storage = container.appStorage.get() else {
-            container.appStorage.save(AppSettings(mainCurrentTab: currentTab))
+        guard let mainCoordinator = mainTabBarCoordinator else {
+            print("⚠️ AppState: Not in main flow, skipping save")
             return
         }
-        storage.mainCurrentTab = currentTab
-        container.appStorage.save(storage)
+        
+        let currentTab = mainCoordinator.tabBarController.selectedIndex
+        var settings = container.appStorage.get() ?? AppSettings(mainCurrentTab: 0)
+        settings.mainCurrentTab = currentTab
+        
+        container.appStorage.save(settings)
+        print("✅ AppState saved: tab index = \(currentTab)")
     }
 
     func restoreAppState() {
-        guard let mainCoordinator = mainTabBarCoordinator, let storage = container.appStorage.get() else {
+        guard let mainCoordinator = mainTabBarCoordinator else {
+            print("⚠️ AppState: Not in main flow, skipping restore")
             return
         }
-
-        if let tabType = TabType(rawValue: storage.mainCurrentTab) {
-            mainCoordinator.selectTab(tabType)
+        
+        guard let storage = container.appStorage.get() else {
+            print("⚠️ AppState: No saved state found")
+            return
         }
+        
+        guard let tabType = TabType(rawValue: storage.mainCurrentTab) else {
+            print("⚠️ AppState: Invalid tab index \(storage.mainCurrentTab)")
+            return
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            mainCoordinator.selectTab(tabType)
+            print("✅ AppState restored: selected tab = \(tabType.title)")
+        }
+    }
+    
+    func clearAppState() {
+        container.appStorage.remove()
+        print("🗑️ AppState cleared")
     }
     
     // MARK: - Auth Event Handling
     @objc private func handleAuthenticationError() {
-        // If we are in the main flow, simulate logout and go to auth
+        clearAppState()
         if let mainCoordinator = mainTabBarCoordinator {
             removeChildCoordinator(mainCoordinator)
             mainTabBarCoordinator = nil
@@ -112,6 +131,7 @@ extension AppCoordinator: PreviewIntroCoordinatorDelegate {
         removeChildCoordinator(coordinator)
         if container.authService.isAuthenticated {
             startMainFlow()
+            restoreAppState()
         } else {
             startAuthFlow()
         }
@@ -122,12 +142,19 @@ extension AppCoordinator: AuthCoordinatorDelegate {
     func authCoordinatorDidFinish(_ coordinator: AuthCoordinator) {
         removeChildCoordinator(coordinator)
         startMainFlow()
+        restoreAppState()
     }
 }
 
 extension AppCoordinator: MainTabBarCoordinatorDelegate {
     func coordinatorDidLogout(_ coordinator: MainTabBarCoordinator) {
+        clearAppState()
         removeChildCoordinator(coordinator)
         startAuthFlow()
+    }
+    
+    func coordinatorDidChangeTab(_ coordinator: MainTabBarCoordinator, to tab: TabType) {
+        saveAppState()
+        print("📱 Tab changed to: \(tab.title)")
     }
 }

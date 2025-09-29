@@ -11,6 +11,7 @@ final class UserDefaultsDataSource: DataSource {
         do {
             let data = try JSONEncoder().encode(value)
             userDefaults.set(data, forKey: key)
+            userDefaults.synchronize()
         } catch {
             print("Error saving \(T.self): \(error)")
         }
@@ -31,6 +32,7 @@ final class UserDefaultsDataSource: DataSource {
     
     func saveString(_ value: String, forKey key: String) {
         userDefaults.set(value, forKey: key)
+        userDefaults.synchronize()
     }
     
     func loadString(forKey key: String) -> String? {
