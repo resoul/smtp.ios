@@ -4,7 +4,7 @@ extension Notification.Name {
     static let didReceiveAuthenticationError = Notification.Name("didReceiveAuthenticationError")
 }
 
-final class AuthEventRouter: AuthenticationEventHandler {
+final class AuthenticationEvent: AuthenticationEventHandler {
     private let cookieStorage: CookieStorage
     private let userStorage: UserStorage
 

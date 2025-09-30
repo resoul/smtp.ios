@@ -3,7 +3,7 @@ import AsyncDisplayKit
 final class VerifiedMarkNode: ASImageNode {
     private var filledExclamationMark: Bool
     func setState(_ state: String) {
-        if state == "VERIFIED" {
+        if state == "verified" {
             image = UIImage(named: "success")
         } else {
             image = UIImage(

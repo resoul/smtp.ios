@@ -54,6 +54,17 @@ final class UserDomainViewModel {
         }
     }
     
+    @MainActor
+    func verify(userDomain: UserDomain) async throws -> UserDomain {
+        do {
+            return try await verificationUseCase.execute(domainUuid: userDomain.uuid)
+        } catch {
+            print(error)
+        }
+        
+        return userDomain
+    }
+    
     func getCurrentUser() -> User? {
         userService.getCurrentUser()
     }

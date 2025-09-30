@@ -18,7 +18,7 @@ extension UserDomainDTO {
         return UserDomain(
             uuid: uuid,
             domainName: domainName,
-            state: state,
+            state: UserDomainState(rawValue: state),
             createdAt: createdAt,
             updatedAt: updatedAt,
             spfValid: spfValid,

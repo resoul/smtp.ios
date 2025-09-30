@@ -33,13 +33,13 @@ final class UserDomainRepositoryImpl: UserDomainRepository {
         return response.map { $0.toDomain() }
     }
     
-    func verify(domainUuid: UUID) async throws -> ListingResponse<UserDomain> {
+    func verify(domainUuid: UUID) async throws -> UserDomain {
         let request = UserDomainVerificationRequest(domainUuid: domainUuid)
         let response = try await network.request(
             endpoint: UserDomainEndpoint.verify(request),
-            responseType: ListingResponseDTO<UserDomainDTO>.self
+            responseType: UserDomainPresenterDTO.self
         )
         
-        return response.map { $0.toDomain() }
+        return response.toDomain()
     }
 }

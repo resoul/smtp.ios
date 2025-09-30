@@ -1,19 +1,11 @@
 import AsyncDisplayKit
 
-final class TokenCoordinator: Coordinator {
-    var childCoordinators: [Coordinator] = []
-    var navigationController: UINavigationController = ASDKNavigationController()
-    var container: Container
-    
+final class TokenCoordinator: TabCoordinator {
     private lazy var tokenViewModel: TokenViewModel = {
-        container.makeTokenViewModel()
+        self.container.makeTokenViewModel()
     }()
-
-    init(container: Container) {
-        self.container = container
-    }
-
-    func start() {
+    
+    override func start() {
         let controller = TokenController(viewModel: tokenViewModel)
         controller.coordinator = self
         navigationController.setViewControllers([controller], animated: false)

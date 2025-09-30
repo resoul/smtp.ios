@@ -245,8 +245,8 @@ final class Service {
     }
     
     // Router that handles auth-related events coming from the network layer
-    private lazy var authEventRouter: AuthEventRouter = {
-        return AuthEventRouter(
+    private lazy var authEventRouter: AuthenticationEvent = {
+        return AuthenticationEvent(
             cookieStorage: storage.cookieStorage,
             userStorage: storage.userStorage
         )

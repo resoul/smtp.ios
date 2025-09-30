@@ -58,7 +58,7 @@ final class UserDomainNode: DisplayNode {
             ),
             UserDomainValidationLineNode(
                 headline: "Admin Approval",
-                isValid: userDomain.state != "DISABLED",
+                isValid: userDomain.state != .disabled,
                 onSettingsButtonPressed: {
                     print("admin")
                 }

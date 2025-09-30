@@ -12,13 +12,13 @@ struct NetworkConfig {
     )
     
     static let staging = NetworkConfig(
-        baseURL: "http://staging-api.example.com",
+        baseURL: "http://staging.api.ems.em.localhost",
         timeout: 30.0,
         enableLogging: true
     )
     
     static let production = NetworkConfig(
-        baseURL: "http://api.example.com",
+        baseURL: "https://api.smtp.emercury.net",
         timeout: 30.0,
         enableLogging: false
     )

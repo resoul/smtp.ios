@@ -1,4 +1,4 @@
-import UIKit
+import AsyncDisplayKit
 
 protocol Coordinator: AnyObject {
     var childCoordinators: [Coordinator] { get set }
@@ -23,5 +23,38 @@ extension Coordinator {
     
     var handleDoubleTap: (() -> Void)? {
         return nil
+    }
+}
+
+class TabCoordinator: Coordinator {
+    var childCoordinators: [Coordinator] = []
+    var navigationController: UINavigationController
+    let container: Container
+    
+    init(
+        container: Container,
+        navigationControllerType: UINavigationController.Type = ASDKNavigationController.self
+    ) {
+        self.container = container
+        self.navigationController = navigationControllerType.init()
+    }
+    
+    func start() {
+        fatalError("start() must be overridden in subclass")
+    }
+}
+
+class FlowCoordinator: Coordinator {
+    var childCoordinators: [Coordinator] = []
+    var navigationController: UINavigationController
+    let container: Container
+    
+    init(navigationController: UINavigationController, container: Container) {
+        self.navigationController = navigationController
+        self.container = container
+    }
+    
+    func start() {
+        fatalError("start() must be overridden in subclass")
     }
 }

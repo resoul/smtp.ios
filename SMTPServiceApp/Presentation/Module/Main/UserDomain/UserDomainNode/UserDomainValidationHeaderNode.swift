@@ -3,7 +3,7 @@ import Combine
 
 final class UserDomainValidationHeaderNode: DisplayNode {
     private let domainName: String
-    private let state: String
+    private let state: UserDomainState
     private let onDelete: (() -> Void)?
     private let onTest: (() -> Void)?
     
@@ -23,7 +23,7 @@ final class UserDomainValidationHeaderNode: DisplayNode {
     
     init(
         domainName: String,
-        state: String,
+        state: UserDomainState,
         onDelete: (() -> Void)? = nil,
         onTest: (() -> Void)? = nil
     ) {
@@ -33,7 +33,7 @@ final class UserDomainValidationHeaderNode: DisplayNode {
         self.onTest = onTest
         super.init()
         automaticallyManagesSubnodes = true
-        statusImageNode.setState(state)
+        statusImageNode.setState(state.rawValue)
         domainNameText.attributedText = NSAttributedString(
             string: domainName,
             attributes: [
