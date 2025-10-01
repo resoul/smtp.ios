@@ -1,24 +1,25 @@
 import AsyncDisplayKit
 import Combine
 
-final class UserDomainController: MainCollectionController {
+final class SuppressionController: MainTableController {
     private var cancellables = Set<AnyCancellable>()
-    weak var coordinator: UserDomainCoordinator?
-    let viewModel: UserDomainViewModel
+    weak var coordinator: SuppressionCoordinator?
+    let viewModel: SuppressionViewModel
 
-    var collectionNode: ASCollectionNode {
+    var tableNode: ASTableNode {
         return node
     }
     
     var currentPage: Int = 1
     var totalCount: Int = 0
-    var items: [UserDomain] = []
+    var items: [Suppression] = []
     
-    init(viewModel: UserDomainViewModel) {
+    init(viewModel: SuppressionViewModel) {
         self.viewModel = viewModel
-        super.init(node: ASCollectionNode(collectionViewLayout: UserDomainCollectionLayout()))
-        collectionNode.dataSource = self
-        collectionNode.delegate = self
+        super.init(node: ASTableNode())
+        tableNode.view.allowsMultipleSelectionDuringEditing = false
+        tableNode.dataSource = self
+        tableNode.delegate = self
     }
     
     override func viewDidLoad() {
@@ -28,11 +29,11 @@ final class UserDomainController: MainCollectionController {
     
     func loadMoreData() {
         Task {
-            try await viewModel.fetchListings()
+            try await self.viewModel.fetchListings()
             currentPage += 1
         }
     }
-    
+
     override func setupBindings() {
         viewModel.totalItems
             .sink { [weak self] total in
@@ -42,20 +43,27 @@ final class UserDomainController: MainCollectionController {
         
         viewModel.items
             .sink { [weak self] items in
-                self?.handleItems(domains: items)
+                self?.handleItems(suppression: items)
             }
             .store(in: &cancellables)
     }
 
-    private func handleItems(domains: [UserDomain]) {
+    private func handleItems(suppression: [Suppression]) {
         let oldCount = items.count
-        items.append(contentsOf: domains)
+        items.append(contentsOf: suppression)
 
         let newCount = items.count
-        let indexPaths = (oldCount..<newCount).map { IndexPath(item: $0, section: 0) }
-        collectionNode.performBatchUpdates({
-            collectionNode.insertItems(at: indexPaths)
+        let indexPaths = (oldCount..<newCount).map {
+            IndexPath(row: $0, section: SuppressionViewModel.Section.suppression.rawValue)
+        }
+        
+        tableNode.performBatchUpdates({
+            tableNode.insertRows(at: indexPaths, with: .automatic)
         })
+    }
+    
+    func handleFilter() {
+        coordinator?.showSuppressionFilter(from: self)
     }
     
     private func handleTotal(total: Int) {
@@ -63,13 +71,9 @@ final class UserDomainController: MainCollectionController {
             totalCount = total
         }
     }
-    
+
     override func applyTheme(_ theme: any Theme) {
-        collectionNode.backgroundColor = theme.mainPresentationData.backgroundColor
-    }
-    
-    deinit {
-        cancellables.removeAll()
+        tableNode.backgroundColor = theme.mainPresentationData.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +84,10 @@ final class UserDomainController: MainCollectionController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+
+    deinit {
+        cancellables.removeAll()
     }
     
     required init?(coder: NSCoder) {

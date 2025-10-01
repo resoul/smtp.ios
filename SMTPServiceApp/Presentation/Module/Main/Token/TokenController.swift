@@ -3,7 +3,6 @@ import Combine
 
 final class TokenController: MainTableController {
     private var cancellables = Set<AnyCancellable>()
-    private var task: Task<Void, Never>?
     weak var coordinator: TokenCoordinator?
     let viewModel: TokenViewModel
     var currentSettingsTab: TokenViewModel.SettingsTab = .smtp
@@ -30,26 +29,9 @@ final class TokenController: MainTableController {
     }
     
     func loadMoreData() {
-        task?.cancel()
-        
-        task = Task { [weak self] in
-            guard let self = self else { return }
-            
-            do {
-                try await self.viewModel.fetchListings()
-                
-                guard !Task.isCancelled else {
-                    print("⚠️ Loading cancelled")
-                    return
-                }
-                
-                await MainActor.run {
-                    self.currentPage += 1
-                }
-            } catch {
-                guard !Task.isCancelled else { return }
-                print("❌ Error loading: \(error)")
-            }
+        Task {
+            try await self.viewModel.fetchListings()
+            currentPage += 1
         }
     }
 
@@ -206,13 +188,17 @@ final class TokenController: MainTableController {
         tableNode.backgroundColor = theme.mainPresentationData.backgroundColor
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        task?.cancel()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     deinit {
-        task?.cancel()
         cancellables.removeAll()
     }
     
