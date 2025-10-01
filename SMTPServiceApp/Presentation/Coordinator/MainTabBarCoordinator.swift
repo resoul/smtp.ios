@@ -63,7 +63,7 @@ final class MainTabBarCoordinator: Coordinator {
         case .domains:
             return container.makeUserDomainCoordinator()
         case .suppression:
-            return container.makeDashboardCoordinator()
+            return container.makeSuppressionCoordinator()
         case .reports:
             return container.makeDashboardCoordinator()
         }
