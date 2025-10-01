@@ -5,6 +5,7 @@ protocol RepositoryContainer {
     var authRepository: AuthRepository { get }
     var userDomainRepository: UserDomainRepository { get }
     var tokenRepository: TokenRepository { get }
+    var suppressionRepository: SuppressionRepository { get }
 }
 
 protocol StorageContainer {
@@ -65,6 +66,10 @@ extension Container: RepositoryContainer {
     
     var tokenRepository: TokenRepository {
         repository.tokenRepository
+    }
+    
+    var suppressionRepository: SuppressionRepository {
+        repository.suppressionRepository
     }
 }
 
@@ -164,6 +169,12 @@ extension Container {
             updatingUseCase: TokenUpdatingUseCaseImpl(tokenRepository: tokenRepository)
         )
     }
+    
+    func makeSuppressionViewModel() -> SuppressionViewModel {
+        SuppressionViewModel(
+            listingUseCase: SuppressionListingUseCaseImpl(suppressionRepository: suppressionRepository)
+        )
+    }
 
     func makeUserDomainViewModel() -> UserDomainViewModel {
         UserDomainViewModel(
@@ -208,6 +219,10 @@ extension Container {
     
     func makeTokenCoordinator() -> TokenCoordinator {
         TokenCoordinator(container: self)
+    }
+    
+    func makeSuppressionCoordinator() -> SuppressionCoordinator {
+        SuppressionCoordinator(container: self)
     }
 
     func makeUserDomainCoordinator() -> UserDomainCoordinator {
@@ -292,5 +307,9 @@ final class Repository {
     
     private(set) lazy var tokenRepository: TokenRepository = {
         return TokenRepositoryImpl(network: service.networkService)
+    }()
+    
+    private(set) lazy var suppressionRepository: SuppressionRepository = {
+        return SuppressionRepositoryImpl(network: service.networkService)
     }()
 }
