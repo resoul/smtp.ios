@@ -1,5 +1,4 @@
 import UIKit
-import PreviewIntro
 
 protocol RepositoryContainer {
     var authRepository: AuthRepository { get }

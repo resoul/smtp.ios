@@ -1,9 +1,4 @@
 import UIKit
-import PreviewIntro
-
-final class PreviewIntroControllerImpl: PreviewIntroController {
-    weak var coordinator: PreviewIntroCoordinator?
-}
 
 protocol PreviewIntroCoordinatorDelegate: AnyObject {
     func previewIntroCoordinatorDidFinish(_ coordinator: PreviewIntroCoordinator)
@@ -22,7 +17,7 @@ final class PreviewIntroCoordinator: Coordinator, PreviewIntroDelegate {
     }
     
     func start() {
-        let controller = PreviewIntroControllerImpl(
+        let controller = PreviewIntroController(
             viewModel: container.makePreviewIntroViewModel(),
             viewNode: PreviewIntroNode()
         )
