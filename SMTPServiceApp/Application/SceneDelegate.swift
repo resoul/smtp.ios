@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let config = AppConfigurationBuilder()
             .withNetworkConfig(.development)
             .withOfflineMode(enabled: false)
-            .withPreviewInto(enabled: false)
+            .withPreviewInto(enabled: true)
             .build()
         
         let container = Container(

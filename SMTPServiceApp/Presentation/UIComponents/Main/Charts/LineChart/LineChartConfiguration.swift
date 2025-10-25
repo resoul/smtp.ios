@@ -8,7 +8,6 @@ struct LineChartConfiguration {
     var showDataLabels: Bool = true
     var showLegend: Bool = true
     
-    // Удобный способ добавления серий
     mutating func addSeries(
         id: String,
         name: String,
@@ -27,9 +26,14 @@ extension LineChartConfiguration {
         config.title = "Monthly Analytics"
         config.maxValue = 25.0
         
-        let baseDate = Date().startOfDay.adding(.month, value: -11) ?? Date()
+        let calendar = Calendar.current
+        let todayStart = calendar.startOfDay(for: Date())
+        let baseDate = calendar.date(byAdding: .month, value: -11, to: todayStart) ?? Date()
         
-        let dates = (0..<12).compactMap { baseDate.adding(.month, value: $0) }
+        let dates: [Date] = (0..<12).compactMap { offset in
+            calendar.date(byAdding: .month, value: offset, to: baseDate)
+        }
+        
         let optimalData = dates.enumerated().map { (index, date) in
             (date, Double.random(in: 12...18))
         }

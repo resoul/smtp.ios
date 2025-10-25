@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */; };
-		89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */ = {isa = PBXBuildFile; productRef = 89F616612E6CA26200BD7B3B /* PreviewIntro */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +40,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89F616622E6CA26200BD7B3B /* PreviewIntro in Frameworks */,
 				89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,7 +84,6 @@
 			name = SMTPServiceApp;
 			packageProductDependencies = (
 				89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */,
-				89F616612E6CA26200BD7B3B /* PreviewIntro */,
 			);
 			productName = SMTPServiceApp;
 			productReference = 895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */;
@@ -118,7 +115,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */,
-				89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 895E07CC2E5F9546003A1A83 /* Products */;
@@ -378,14 +374,6 @@
 				minimumVersion = 3.2.0;
 			};
 		};
-		89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/resoul/PreviewIntro.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -393,11 +381,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */;
 			productName = AsyncDisplayKit;
-		};
-		89F616612E6CA26200BD7B3B /* PreviewIntro */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 89F616602E6CA26200BD7B3B /* XCRemoteSwiftPackageReference "PreviewIntro" */;
-			productName = PreviewIntro;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
