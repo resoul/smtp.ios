@@ -1,5 +1,8 @@
 import UIKit
 
+/// Protocol defining access to all repositories in the app
+///
+/// Repositories are responsible for data operations and API communication.
 protocol RepositoryContainer {
     var authRepository: AuthRepository { get }
     var userDomainRepository: UserDomainRepository { get }
@@ -7,21 +10,47 @@ protocol RepositoryContainer {
     var suppressionRepository: SuppressionRepository { get }
 }
 
+/// Protocol defining access to all storage mechanisms
+///
+/// Storage implementations handle local data persistence.
 protocol StorageContainer {
     var cookieStorage: CookieStorage { get }
     var userStorage: UserStorage { get }
     var appStorage: AppStorage { get }
 }
 
-//MARK: -- Main Container
+// MARK: - Main Container
+
+/// Main dependency injection container for the application
+///
+/// This container manages the lifecycle of all major app dependencies including
+/// repositories, services, storage, and coordinators. It follows the Dependency
+/// Injection pattern to provide loose coupling between components.
+///
+/// The Container is composed of feature-specific protocols:
+/// - `AuthContainer`: Authentication-related dependencies
+/// - `MainContainer`: Main feature dependencies (Token, UserDomain, etc.)
+/// - `RepositoryContainer`: Data layer repositories
+/// - `StorageContainer`: Storage implementations
+///
+/// Usage:
+/// ```swift
+/// let container = Container(
+///     windowScene: windowScene,
+///     appConfiguration: config,
+///     source: UserDefaultsDataSource(),
+///     themeManager: ThemeManager.shared
+/// )
+/// let appCoordinator = container.makeAppCoordinator()
+/// ```
 final class Container {
     private let windowScene: UIWindowScene
     private let window: UIWindow
     private let appConfiguration: AppConfiguration
-    private let themeManager: ThemeManager
     private let service: Service
     private let storage: Storage
     private let repository: Repository
+    let themeManager: ThemeManager
     
     init(
         windowScene:  UIWindowScene,
@@ -102,90 +131,6 @@ extension Container {
     }
 }
 
-//MARK: -- Container ViewModel
-extension Container {
-    func makePreviewIntroViewModel() -> PreviewIntroViewModel {
-        //MARK: TODO - make data source for preview intro
-        let theme = themeManager.currentTheme.previewIntroPresentationData
-        let items = [
-            PreviewIntro(
-                headline: "Send Messages Based On Website & Email Events",
-                description: "Unlock the key to super-responsive real-time personalization. Set up customer tracking & custom events today.",
-                image: UIImage(named: "splash"),
-                backgroundColor: theme.backgroundColor,
-                headlineColor: theme.textColor,
-                descriptionColor: theme.textColor
-            ),
-            PreviewIntro(
-                headline: "Build Highly-Customizable email Journeys!",
-                description: "Take our drag-and-drop email automation builder, design the ideal customer journey and let our platform convert leads for You On Autopilot.",
-                image: UIImage(named: "splash-1"),
-                backgroundColor: theme.backgroundColor,
-                headlineColor: theme.textColor,
-                descriptionColor: theme.textColor
-            )
-        ]
-        
-        return PreviewIntroViewModelImpl(items: items)
-    }
-    
-    func makeLoginViewModel() -> LoginViewModel {
-        LoginViewModelImpl(
-            loginUseCase: LoginUseCaseImpl(authRepository: repository.authRepository)
-        )
-    }
-    
-    func makeRequestResetPasswordViewModel() -> RequestResetPasswordViewModel {
-        RequestResetPasswordViewModel(
-            resetPasswordUseCase: ResetPasswordUseCaseImpl(authRepository: repository.authRepository)
-        )
-    }
-    
-    func makeActivateAccountViewModel() -> ActivateAccountViewModel {
-        ActivateAccountViewModel(
-            resendActivationEmailUseCase: ResendActivationEmailUseCaseImpl(authRepository: repository.authRepository)
-        )
-    }
-    
-    func makeForgotPasswordViewModel() -> ForgotPasswordViewModel {
-        ForgotPasswordViewModel(
-            forgotPasswordUseCase: ForgotPasswordUseCaseImpl(authRepository: repository.authRepository)
-        )
-    }
-    
-    func makeRegistrationViewModel() -> RegistrationViewModel {
-        RegistrationViewModelImpl(
-            registrationUseCase: RegistrationUseCaseImpl(authRepository: repository.authRepository)
-        )
-    }
-    
-    func makeTokenViewModel() -> TokenViewModel {
-        TokenViewModel(
-            userService: userService,
-            listingUseCase: TokenListingUseCaseImpl(tokenRepository: tokenRepository),
-            deletingUseCase: TokenDeletingUseCaseImpl(tokenRepository: tokenRepository),
-            creatingUseCase: TokenCreatingUseCaseImpl(tokenRepository: tokenRepository),
-            updatingUseCase: TokenUpdatingUseCaseImpl(tokenRepository: tokenRepository)
-        )
-    }
-    
-    func makeSuppressionViewModel() -> SuppressionViewModel {
-        SuppressionViewModel(
-            listingUseCase: SuppressionListingUseCaseImpl(suppressionRepository: suppressionRepository)
-        )
-    }
-
-    func makeUserDomainViewModel() -> UserDomainViewModel {
-        UserDomainViewModel(
-            userService: userService,
-            listingUseCase: UserDomainListingUseCaseImpl(userDomainRepository: userDomainRepository),
-            deletingUseCase: UserDomainDeletingUseCaseImpl(userDomainRepository: userDomainRepository),
-            creatingUseCase: UserDomainCreatingUseCaseImpl(userDomainRepository: userDomainRepository),
-            verificationUseCase: UserDomainVerificationUseCaseImpl(userDomainRepository: userDomainRepository)
-        )
-    }
-}
-
 //MARK: -- Container Coordinator
 extension Container {
     func makeAppCoordinator() -> AppCoordinator {
@@ -198,34 +143,6 @@ extension Container {
             navigationController: navigationController,
             container: self
         )
-    }
-    
-    func makeAuthCoordinator(navigationController: UINavigationController) -> AuthCoordinator {
-        AuthCoordinator(navigationController: navigationController, container: self)
-    }
-    
-    func makePreviewIntroCoordinator(navigationController: UINavigationController) -> PreviewIntroCoordinator {
-        PreviewIntroCoordinator(navigationController: navigationController, container: self)
-    }
-    
-    func makeMainTabBarCoordinator(navigationController: UINavigationController) -> MainTabBarCoordinator {
-        MainTabBarCoordinator(navigationController: navigationController, container: self)
-    }
-    
-    func makeDashboardCoordinator() -> DashboardCoordinator {
-        DashboardCoordinator(container: self)
-    }
-    
-    func makeTokenCoordinator() -> TokenCoordinator {
-        TokenCoordinator(container: self)
-    }
-    
-    func makeSuppressionCoordinator() -> SuppressionCoordinator {
-        SuppressionCoordinator(container: self)
-    }
-
-    func makeUserDomainCoordinator() -> UserDomainCoordinator {
-        UserDomainCoordinator(container: self)
     }
 }
 
