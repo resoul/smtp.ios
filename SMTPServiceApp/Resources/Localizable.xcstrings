@@ -107,6 +107,174 @@
           }
         }
       }
+    },
+    "error.action.activate" : {
+      "comment" : "Account activation action",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Please check your email and activate your account."
+          }
+        }
+      }
+    },
+    "error.action.login" : {
+      "comment" : "Re-authentication action",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Please log in again."
+          }
+        }
+      }
+    },
+    "error.action.wait" : {
+      "comment" : "Rate limit action",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Please wait a few minutes before trying again."
+          }
+        }
+      }
+    },
+    "error.auth.invalid_credentials" : {
+      "comment" : "Authentication failed error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Invalid email or password. Please check your credentials."
+          }
+        }
+      }
+    },
+    "error.auth.not_activated" : {
+      "comment" : "Account not activated error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Account not activated. Please check your email for activation link."
+          }
+        }
+      }
+    },
+    "error.network.decoding" : {
+      "comment" : "JSON decoding error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Server response format error. Please update the app or try again."
+          }
+        }
+      }
+    },
+    "error.network.invalid_url" : {
+      "comment" : "Invalid URL error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Service configuration error. Please contact support."
+          }
+        }
+      }
+    },
+    "error.network.no_data" : {
+      "comment" : "No data received error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No response from server. Please check your connection and try again."
+          }
+        }
+      }
+    },
+    "error.network.not_found" : {
+      "comment" : "404 error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The requested resource was not found."
+          }
+        }
+      }
+    },
+    "error.network.rate_limit" : {
+      "comment" : "Rate limit error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Too many requests. Please try again later."
+          }
+        }
+      }
+    },
+    "error.server.generic" : {
+      "comment" : "Generic server error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Server error. Please try again later."
+          }
+        }
+      }
+    },
+    "error.server.with_code" : {
+      "comment" : "Server error with code",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Server error (%@). Please try again later."
+          }
+        }
+      }
+    },
+    "error.unknown" : {
+      "comment" : "Generic error message\nUnknown error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "An unexpected error occurred. Please try again."
+          }
+        }
+      }
+    },
+    "error.validation.generic" : {
+      "comment" : "Generic validation error",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Please check your input and try again."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

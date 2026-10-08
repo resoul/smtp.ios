@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */ = {isa = PBXBuildFile; productRef = 89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */; };
+		896DB5B33077835200F8B1B1 /* AsyncDisplayKit in Frameworks */ = {isa = PBXBuildFile; productRef = 896DB5B23077835200F8B1B1 /* AsyncDisplayKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				89F6165C2E6CA22C00BD7B3B /* AsyncDisplayKit in Frameworks */,
+				896DB5B33077835200F8B1B1 /* AsyncDisplayKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			);
 			name = SMTPServiceApp;
 			packageProductDependencies = (
-				89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */,
+				896DB5B23077835200F8B1B1 /* AsyncDisplayKit */,
 			);
 			productName = SMTPServiceApp;
 			productReference = 895E07CB2E5F9546003A1A83 /* SMTPServiceApp.app */;
@@ -97,7 +97,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1640;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					895E07CA2E5F9546003A1A83 = {
 						CreatedOnToolsVersion = 16.4;
@@ -114,7 +114,7 @@
 			mainGroup = 895E07C22E5F9546003A1A83;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */,
+				896DB5B13077835200F8B1B1 /* XCRemoteSwiftPackageReference "Texture" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 895E07CC2E5F9546003A1A83 /* Products */;
@@ -165,7 +165,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -201,7 +201,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = "$(RECOMMENDED_IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -366,9 +366,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */ = {
+		896DB5B13077835200F8B1B1 /* XCRemoteSwiftPackageReference "Texture" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/resoul/AsyncDisplayKit.git";
+			repositoryURL = "https://github.com/resoul/Texture.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 3.2.0;
@@ -377,9 +377,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		89F6165B2E6CA22C00BD7B3B /* AsyncDisplayKit */ = {
+		896DB5B23077835200F8B1B1 /* AsyncDisplayKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 89F6165A2E6CA22C00BD7B3B /* XCRemoteSwiftPackageReference "AsyncDisplayKit" */;
+			package = 896DB5B13077835200F8B1B1 /* XCRemoteSwiftPackageReference "Texture" */;
 			productName = AsyncDisplayKit;
 		};
 /* End XCSwiftPackageProductDependency section */
